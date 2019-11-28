@@ -1,4 +1,4 @@
-package go-game-groupID;
+package go_game;
 
 /**
  * Hello world!
