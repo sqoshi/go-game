@@ -161,23 +161,30 @@ public class Game {
             return newStone;
         }
     }
-    private void update(Stone newStone){
+
+    private void update(Stone newStone) {
         updateConsoleBoard(newStone);
-        updateGroupBoard(newStone);
-        updateCurrentIndex();
+        groupsBoard[newStone.getX()][newStone.getY()] = newStone.getGroup();
+        index++;
         updateMoves(1);
     }
 
+    private void updateConsoleBoard(Stone stone) {
+        if (stone.getColor().equals(PlayerColor.BLACK)) consoleBoard[stone.getX()][stone.getY()] = 'B';
+        if (stone.getColor().equals(PlayerColor.WHITE)) consoleBoard[stone.getX()][stone.getY()] = 'W';
+    }
+
     private void updateMoves(int value) {
-// 1 if BLACk 2 if wHITE
+        // 1 if BLACk 2 if wHITE
         if (currentPlayer == PlayerColor.BLACK) {
             moves[2] = value;
             moves[0] = 2;
-        }
-        else {
+        } else {
             moves[1] = value;
             moves[0] = 1;
-        }}
+        }
+    }
+
     /**
      * check if after insertion there is any group to be deleted.
      *
