@@ -116,7 +116,7 @@ public class Game {
 
             //inserting new stone to the board
             board[x][y] = newStone;
-            //TODO:implement history
+            //implement history
             updateHistoryBoard();
             if (CheckKO(index)) {
                 System.out.println("you cant move like this, repeat of KO is not allowed!");
@@ -126,7 +126,7 @@ public class Game {
             } else
                 board[x][y] = newStone;
 
-            //TODO: check sinister
+            //check sinister
             if (findGroupBreaths(actualGroup) == 0) {
                 int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
                 if (groupsWithoutBreaths[0] == 0) {
@@ -144,25 +144,74 @@ public class Game {
                         changePlayer();//next turn so change player
                     }
                 }
-            }else{
+            } else {
                 int pointsWhiteForPrisoners = blackPrisonersThatWhiteGot;
-                int pointsBlackForPrisoners =  whitePrisonersThatBlackGot;
+                int pointsBlackForPrisoners = whitePrisonersThatBlackGot;
+                afterInsertCheck(actualGroup, newStone);
+                if (pointsWhiteForPrisoners != blackPrisonersThatWhiteGot
+                        || pointsBlackForPrisoners != whitePrisonersThatBlackGot)
+                    System.out.println("sth was taken to jail");
+                if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
+                else actualQuantityWhiteStones--;
+                changePlayer();
+            }
+            if (newStone != null) {
+                update(newStone);
             }
             return newStone;
         }
+    }
+    private void update(Stone newStone){
+        updateConsoleBoard(newStone);
+        updateGroupBoard(newStone);
+        updateCurrentIndex();
+        updateMoves(1);
+    }
+
+    private void updateMoves(int value) {
+// 1 if BLACk 2 if wHITE
+        if (currentPlayer == PlayerColor.BLACK) {
+            moves[2] = value;
+            moves[0] = 2;
+        }
+        else {
+            moves[1] = value;
+            moves[0] = 1;
+        }}
+    /**
+     * check if after insertion there is any group to be deleted.
+     *
+     * @param actualGroup
+     * @param stone
+     */
+    private void afterInsertCheck(int actualGroup, Stone stone) {
+        int up = getAdjacentGroups(stone, false, Direction.UP);
+        int down = getAdjacentGroups(stone, false, Direction.DOWN);
+        int right = getAdjacentGroups(stone, false, Direction.RIGHT);
+        int left = getAdjacentGroups(stone, false, Direction.LEFT);
+        if (up != actualGroup && findGroupBreaths(up) == 0)
+            killGroup(up, stone.getColor());
+        if (down != actualGroup && findGroupBreaths(down) == 0)
+            killGroup(down, stone.getColor());
+        if (left != actualGroup && findGroupBreaths(left) == 0)
+            killGroup(left, stone.getColor());
+        if (right != actualGroup && findGroupBreaths(right) == 0)
+            killGroup(right, stone.getColor());
     }
 
     /**
      * change player.
      */
     void changePlayer() {
-        if(currentPlayer.equals(PlayerColor.BLACK))
+        if (currentPlayer.equals(PlayerColor.BLACK))
             currentPlayer = PlayerColor.WHITE;
         else
             currentPlayer = PlayerColor.BLACK;
     }
+
     /**
      * delete stones from killed group;
+     *
      * @param group
      * @param playerColor
      */
