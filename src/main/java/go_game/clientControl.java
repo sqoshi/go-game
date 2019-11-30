@@ -10,6 +10,7 @@ public class clientControl {
 
     /**
      * Socket creator.
+     *
      * @param socket avaible socket for user-client.
      */
     public clientControl(Socket socket) {
@@ -26,9 +27,10 @@ public class clientControl {
     /**
      * Disconnect player from server.
      */
-    public void disconnect(){
+    public void disconnect() {
         System.exit(1);
     }
+
     public int getDim() {
         return dim;
     }
@@ -44,11 +46,12 @@ public class clientControl {
     public void setPartner(boolean partner) {
         Partner = partner;
     }
+
     public boolean isBot() {
         return Bot;
     }
+
     public void setBot(boolean bot) {
         Bot = bot;
     }
-
 }
