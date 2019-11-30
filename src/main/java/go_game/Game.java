@@ -107,8 +107,204 @@ public class Game {
             Stone newStone = new Stone(x, y, stoneColor, ++lastGroup);
             int actualGroup = newStone.getGroup();
 
-            int[] neighbours = new int[4];
+            int upNeighbour = getAdjacentGroups(newStone, true, Direction.UP);
+            int downNeighbour = getAdjacentGroups(newStone, true, Direction.DOWN);
+            int leftNeighbour = getAdjacentGroups(newStone, true, Direction.LEFT);
+            int rightNeighbour = getAdjacentGroups(newStone, true, Direction.RIGHT);
+
+            updateGroups(actualGroup, upNeighbour, downNeighbour, leftNeighbour, rightNeighbour);
+
+            //inserting new stone to the board
+            board[x][y] = newStone;
+            //TODO:implement history
+            updateHistoryBoard();
+            if (CheckKO(index)) {
+                System.out.println("you cant move like this, repeat of KO is not allowed!");
+                historyBoard[index][x][y] = 0;
+                newStone = null;
+                board[x][y] = null;
+            } else
+                board[x][y] = newStone;
+
+            //TODO: check sinister
+            if (findGroupBreaths(actualGroup) == 0) {
+                int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
+                if (groupsWithoutBreaths[0] == 0) {
+                    System.out.println("you cant kill yourself");
+                    board[x][y] = null;
+                    groupsBoard[x][y] = 0;
+                    newStone = null;
+                } else {
+                    if (groupsWithoutBreaths[0] > 0) {
+                        System.out.println("you get point by taking prisoner");
+                        for (int i = 0; i <= groupsWithoutBreaths[0]; i++)
+                            killGroup(groupsWithoutBreaths[i], newStone.getColor());
+                        if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
+                        else actualQuantityWhiteStones--;
+                        changePlayer();//next turn so change player
+                    }
+                }
+            }else{
+                int pointsWhiteForPrisoners = blackPrisonersThatWhiteGot;
+                int pointsBlackForPrisoners =  whitePrisonersThatBlackGot;
+            }
             return newStone;
+        }
+    }
+
+    /**
+     * change player.
+     */
+    void changePlayer() {
+        if(currentPlayer.equals(PlayerColor.BLACK))
+            currentPlayer = PlayerColor.WHITE;
+        else
+            currentPlayer = PlayerColor.BLACK;
+    }
+    /**
+     * delete stones from killed group;
+     * @param group
+     * @param playerColor
+     */
+    private void killGroup(int group, PlayerColor playerColor) {
+        for (int i = 0; i < dismension; i++)
+            for (int j = 0; j < dismension; j++) {
+                if (board[i][j] != null & board[i][j].getGroup() == group) {
+                    //increase prisoners //points
+                    if (playerColor.equals(PlayerColor.WHITE)) blackPrisonersThatWhiteGot++;
+                    else whitePrisonersThatBlackGot++;
+                    groupsBoard[i][j] = 0;
+                    board[i][j] = null;
+                    consoleBoard[i][j] = '.';
+                }
+            }
+    }
+
+    /**
+     * @param actualGroup
+     * @param playerColor
+     * @return
+     */
+    private int[] getGroups2kill(int actualGroup, PlayerColor playerColor) {
+        int[] g2k = new int[dismension ^ 2];
+        g2k[0] = 0;
+        int index = 0;
+        int breaths;
+        boolean[] groups = new boolean[actualGroup + 1];
+
+        for (int i = 0; i < dismension; i++)
+            for (int j = 0; j < dismension; j++) {
+                if (board[i][j] != null) {
+                    if (board[i][j].getColor() != playerColor) {
+                        breaths = findGroupBreaths(board[i][j].getGroup());
+                        if (breaths == 0 && !groups[board[i][j].getGroup()]
+                                && board[i][j].getGroup() != actualGroup) {
+                            g2k[0]++;
+                            g2k[index++] = board[i][j].getGroup();
+                            groups[board[i][j].getGroup()] = true;
+                        }
+                    }
+                }
+            }
+
+        return g2k;
+    }
+
+    /**
+     * search for breaths of group.
+     *
+     * @param group
+     * @return
+     */
+    private int findGroupBreaths(int group) {
+        boolean[][] breathsMatrix = new boolean[dismension][dismension];
+        int counter = 0;
+        for (int i = 0; i < dismension; i++)
+            for (int j = 0; j < dismension; j++) {
+                if (board[i][j] != null && board[i][j].getGroup() == group) {
+                    counter += breathsPerStoneInGroup(i, j, breathsMatrix);
+                }
+            }
+        return counter;
+    }
+
+    /**
+     * find breaths for stone in group.
+     *
+     * @param x
+     * @param y
+     * @param matrix
+     * @return
+     */
+    private int breathsPerStoneInGroup(int x, int y, boolean[][] matrix) {
+        int count = 0;
+        if (isLineValid(x, Direction.UP) && isPositionAvaible(x - 1, y) && !matrix[x - 1][y]) {
+            matrix[x - 1][y] = true;
+            count++;
+        }
+        if (isLineValid(x, Direction.DOWN) && isPositionAvaible(x + 1, y) && !matrix[x + 1][y]) {
+            matrix[x + 1][y] = true;
+            count++;
+        }
+        if (isLineValid(x, Direction.LEFT) && isPositionAvaible(x, y - 1) && !matrix[x][y - 1]) {
+            matrix[x][y - 1] = true;
+            count++;
+        }
+        if (isLineValid(x, Direction.LEFT) && isPositionAvaible(x, y + 1) && !matrix[x][y + 1]) {
+            matrix[x][y + 1] = true;
+            count++;
+        }
+        return count;
+    }
+
+    /**
+     * Updates copy of boadrd.
+     */
+    private void updateHistoryBoard() {
+        //TODO:sometimes index shouldbe updated but when?
+        for (int i = 0; i < dismension; i++)
+            for (int j = 0; j < dismension; j++) {
+                if (board[i][j] == null)
+                    historyBoard[index][i][j] = 0;
+                else if (board[i][j].getColor().equals(PlayerColor.BLACK))
+                    historyBoard[index][i][j] = -1;
+                else if (board[i][j].getColor().equals(PlayerColor.WHITE))
+                    historyBoard[index][i][j] = 1;
+            }
+    }
+
+    private boolean CheckKO(int index) {
+        if (index > 1) {
+            for (int i = 0; i < dismension; ++i) {
+                for (int j = 0; j < dismension; ++j) {
+                    if (historyBoard[index][i][j] != historyBoard[index - 1][i][j])
+                        return false;
+                }
+            }
+        } else return false;
+        return true;
+    }
+
+    /**
+     * Sets old adjacent groups to new one group.
+     *
+     * @param actualGroup actual setting stone group.
+     * @param up          up adjacent group
+     * @param down        down adjacent group
+     * @param left        left adjacent group
+     * @param right       right adjacent group
+     */
+    private void updateGroups(int actualGroup, int up, int down, int left, int right) {
+        for (int i = 0; i < dismension; ++i) {
+            for (int j = 0; j < dismension; ++j) {
+                if (board[i][j] != null) {
+                    if (board[i][j].getGroup() == up || board[i][j].getGroup() == down
+                            || board[i][j].getGroup() == left || board[i][j].getGroup() == right) {
+                        groupsBoard[i][j] = actualGroup;
+                        board[i][j].setGroup(actualGroup);
+                    }
+                }
+            }
         }
     }
 
@@ -120,19 +316,99 @@ public class Game {
         return ((x < dismension) && (x > -1) && (y < dismension) && (y > -1));
     }
 
-    private int getNeighbours(Stone stone, boolean isColorIdentic, Direction direction) {
+    /**
+     * checks limit in case player try to put stone outside board.
+     *
+     * @param n
+     * @param dir
+     * @return
+     */
+    private boolean isLineValid(int n, Direction dir) {
+        if (dir.equals(Direction.UP) || dir.equals(Direction.LEFT)) {
+            return n > 0;
+        } else
+            return n < dismension - 1;
+    }
+
+    /**
+     * Returns group numer that is a neighbour with given stone
+     *
+     * @param stone
+     * @param isColorIdentic
+     * @param direction
+     * @return
+     */
+    private int getAdjacentGroups(Stone stone, boolean isColorIdentic, Direction direction) {
         int adjacentGroup = -1024;
         PlayerColor stoneColor = stone.getColor();
         if (!isColorIdentic) {
             if (direction == Direction.UP) {
-
+                if (isLineValid(stone.getX(), direction)
+                        && !isPositionAvaible(stone.getX() - 1, stone.getY())
+                        && stoneColor != board[stone.getX() - 1][stone.getY()].getColor()) {
+                    adjacentGroup = board[stone.getX() - 1][stone.getY()].getGroup();
+                } else {
+                    adjacentGroup = -1;
+                }
             } else if (direction == Direction.DOWN) {
-
+                if (isLineValid(stone.getX(), direction)
+                        && !isPositionAvaible(stone.getX() + 1, stone.getY())
+                        && stoneColor != board[stone.getX() + 1][stone.getY()].getColor()) {
+                    adjacentGroup = board[stone.getX() + 1][stone.getY()].getGroup();
+                } else {
+                    adjacentGroup = -1;
+                }
             } else if (direction == Direction.RIGHT) {
-
+                if (isLineValid(stone.getY(), direction)
+                        && !isPositionAvaible(stone.getX(), stone.getY() + 1)
+                        && (stoneColor != board[stone.getX()][stone.getY() + 1].getColor()))
+                    adjacentGroup = board[stone.getX()][stone.getY() + 1].getGroup();
+                else
+                    adjacentGroup = -1;
             } else if (direction == Direction.LEFT) {
-
-            } else adjacentGroup = -1;
+                if (isLineValid(stone.getY(), direction)
+                        && !isPositionAvaible(stone.getX(), stone.getY() - 1)
+                        && (stoneColor != board[stone.getX()][stone.getY() - 1].getColor()))
+                    adjacentGroup = board[stone.getX()][stone.getY() - 1].getGroup();
+                else
+                    adjacentGroup = -1;
+            } else
+                adjacentGroup = -1;
+        } else {
+            if (direction == Direction.UP) {
+                if (isLineValid(stone.getX(), direction)
+                        && !isPositionAvaible(stone.getX() - 1, stone.getY())
+                        && stoneColor == board[stone.getX() - 1][stone.getY()].getColor()) {
+                    adjacentGroup = board[stone.getX() - 1][stone.getY()].getGroup();
+                } else {
+                    adjacentGroup = -1;
+                }
+            } else if (direction == Direction.DOWN) {
+                if (isLineValid(stone.getX(), direction)
+                        && !isPositionAvaible(stone.getX() + 1, stone.getY())
+                        && stoneColor == board[stone.getX() + 1][stone.getY()].getColor()) {
+                    adjacentGroup = board[stone.getX() + 1][stone.getY()].getGroup();
+                } else {
+                    adjacentGroup = -1;
+                }
+            } else if (direction == Direction.RIGHT) {
+                if (isLineValid(stone.getY(), direction)
+                        && !isPositionAvaible(stone.getX(), stone.getY() + 1)
+                        && (stoneColor == board[stone.getX()][stone.getY() + 1].getColor()))
+                    adjacentGroup = board[stone.getX()][stone.getY() + 1].getGroup();
+                else
+                    adjacentGroup = -1;
+            } else if (direction == Direction.LEFT) {
+                if (isLineValid(stone.getY(), direction)
+                        && !isPositionAvaible(stone.getX(), stone.getY() - 1)
+                        && (stoneColor == board[stone.getX()][stone.getY() - 1].getColor()))
+                    adjacentGroup = board[stone.getX()][stone.getY() - 1].getGroup();
+                else
+                    adjacentGroup = -1;
+            } else
+                adjacentGroup = -1;
         }
+        return adjacentGroup;
     }
+
 }
