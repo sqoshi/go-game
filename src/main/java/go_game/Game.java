@@ -86,23 +86,16 @@ public class Game {
             }
     }
 
-    public void printer(char[][] array) {
-        for (char[] x : array) {
-            for (char y : x) {
-                System.out.print(y + " ");
-            }
-            System.out.println();
-        }
-    }
 
     public Stone updateBoard(PlayerColor stoneColor, int x, int y) {
+        //check if x,y is inside board.
         if (!isInsideBoard(x, y)) {
             System.out.println("Bad range.!");
             return null;
-        } else if (!isPositionAvaible(x, y)) {
+        } else if (!isPositionAvaible(x, y)) {// check if fiven position is avaible.
             System.out.print("Postition is not free!");
             return null;
-        } else {
+        } else {//if inside and position is avaible add Stone, and increment group.
             Stone newStone = new Stone(x, y, stoneColor, ++lastGroup);
             int actualGroup = newStone.getGroup();
 
@@ -125,10 +118,10 @@ public class Game {
             } else
                 board[x][y] = newStone;
 
-            //check sinister
+            //check suicide
             if (findGroupBreaths(actualGroup) == 0) {
                 int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
-                if (groupsWithoutBreaths[0] == 0) {
+                if (groupsWithoutBreaths[0] == 0) {//if u try to put stone in place without breathes
                     System.out.println("you cant kill yourself");
                     board[x][y] = null;
                     groupsBoard[x][y] = 0;
@@ -157,7 +150,7 @@ public class Game {
             if (newStone != null) {
                 update(newStone);
             }
-
+            printer2D(groupsBoard);
             return newStone;
 
         }
@@ -499,5 +492,14 @@ public class Game {
                     System.out.print(" " + m[j]);
             }
         System.out.print(letters);
+    }
+
+    void printer2D(int[][] array) {
+        for (int[] x : array) {
+            for (int y : x) {
+                System.out.print(y + " ");
+            }
+            System.out.println();
+        }
     }
 }
