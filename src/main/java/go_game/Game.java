@@ -56,7 +56,6 @@ public class Game {
 
         //printing empty console
         emptyConsolePrinter(dismension);
-        printer(consoleBoard);
     }
 
     private void emptyConsolePrinter(int dismension) {
@@ -158,8 +157,11 @@ public class Game {
             if (newStone != null) {
                 update(newStone);
             }
+
             return newStone;
+
         }
+
     }
 
     private void update(Stone newStone) {
@@ -225,7 +227,7 @@ public class Game {
     private void killGroup(int group, PlayerColor playerColor) {
         for (int i = 0; i < dismension; i++)
             for (int j = 0; j < dismension; j++) {
-                if (board[i][j] != null & board[i][j].getGroup() == group) {
+                if (board[i][j] != null && board[i][j].getGroup() == group) {
                     //increase prisoners //points
                     if (playerColor.equals(PlayerColor.WHITE)) blackPrisonersThatWhiteGot++;
                     else whitePrisonersThatBlackGot++;
@@ -279,6 +281,7 @@ public class Game {
             for (int j = 0; j < dismension; j++) {
                 if (board[i][j] != null && board[i][j].getGroup() == group) {
                     counter += breathsPerStoneInGroup(i, j, breathsMatrix);
+                    System.out.println(counter + "liczydlo");
                 }
             }
         return counter;
@@ -302,11 +305,11 @@ public class Game {
             matrix[x + 1][y] = true;
             count++;
         }
-        if (isLineValid(x, Direction.LEFT) && isPositionAvaible(x, y - 1) && !matrix[x][y - 1]) {
+        if (isLineValid(y, Direction.LEFT) && isPositionAvaible(x, y - 1) && !matrix[x][y - 1]) {
             matrix[x][y - 1] = true;
             count++;
         }
-        if (isLineValid(x, Direction.LEFT) && isPositionAvaible(x, y + 1) && !matrix[x][y + 1]) {
+        if (isLineValid(y, Direction.RIGHT) && isPositionAvaible(x, y + 1) && !matrix[x][y + 1]) {
             matrix[x][y + 1] = true;
             count++;
         }
@@ -467,4 +470,36 @@ public class Game {
         return adjacentGroup;
     }
 
+    void showBoard() {
+        int lines = 0;
+        char[][] matrix = consoleBoard;
+
+        String string19 = "     A B C D E F G H I J K L M N O P Q R S\n";
+        String letters;
+        if (dismension == 19)
+            letters = string19;
+        else if (dismension == 13)
+            letters = string19.substring(0, 31) + '\n';
+        else
+            letters = string19.substring(0, 23) + "\n";
+
+        System.out.print("\n" + letters);
+        for (char[] m : matrix)
+            for (int j = 0; j < matrix.length; j++) {
+                if (j == 0) {
+                    if (lines < 10) {
+                        System.out.print("  " + lines + " ");
+                        lines++;
+                    } else {
+                        System.out.print(" " + lines + " ");
+                        lines++;
+                    }
+                }
+                if (j == matrix.length - 1)
+                    System.out.println(" " + m[j] + "  " + (lines - 1));
+                else
+                    System.out.print(" " + m[j]);
+            }
+        System.out.print(letters);
+    }
 }
