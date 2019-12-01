@@ -52,7 +52,7 @@ public class Game {
         currentPlayer = PlayerColor.BLACK;
         index = 0;
 
-        historyBoard = new int[dismension ^ 2][dismension][dismension];
+        historyBoard = new int[(int) Math.pow(dismension, 2)][dismension][dismension];
 
         //printing empty console
         emptyConsolePrinter(dismension);
@@ -281,7 +281,6 @@ public class Game {
             for (int j = 0; j < dismension; j++) {
                 if (board[i][j] != null && board[i][j].getGroup() == group) {
                     counter += breathsPerStoneInGroup(i, j, breathsMatrix);
-                    System.out.println(counter + "liczydlo");
                 }
             }
         return counter;
@@ -320,7 +319,6 @@ public class Game {
      * Updates copy of boadrd.
      */
     private void updateHistoryBoard() {
-        //TODO:sometimes index shouldbe updated but when?
         for (int i = 0; i < dismension; i++)
             for (int j = 0; j < dismension; j++) {
                 if (board[i][j] == null)
