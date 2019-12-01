@@ -142,7 +142,7 @@ public class Game {
                 afterInsertCheck(actualGroup, newStone);
                 if (pointsWhiteForPrisoners != blackPrisonersThatWhiteGot
                         || pointsBlackForPrisoners != whitePrisonersThatBlackGot)
-                    System.out.println("sth was taken to jail");
+                    System.out.println("sth was taken to jail");//mean that u got a point for killing some units on ur map
                 if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
                 else actualQuantityWhiteStones--;
                 changePlayer();
