@@ -1,7 +1,7 @@
 package go_game;
 
-import go_game.Builder.GameFactory;
-import go_game.Builder.GameI;
+import go_game.Factory.GameFactory;
+import go_game.Factory.GameI;
 
 import java.util.Scanner;
 

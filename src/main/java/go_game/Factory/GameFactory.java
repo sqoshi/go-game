@@ -1,7 +1,7 @@
-package go_game.Builder;
+package go_game.Factory;
 
 
-public class GameFactory {
+public abstract class GameFactory {
     public static GameI getGame(int dismension) {
         if (dismension == 9)
             return new Game9x9();

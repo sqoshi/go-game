@@ -1,4 +1,4 @@
-package go_game.Builder;
+package go_game.Factory;
 
 import go_game.Game;
 
