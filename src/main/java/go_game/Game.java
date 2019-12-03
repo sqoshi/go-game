@@ -36,6 +36,8 @@ public class Game {
         totalBlackStones = (dismension ^ 2) / 2 - 1; // because 1st is current black so -1
         totalWhiteStones = (dismension ^ 2) / 2;
 
+        actualQuantityWhiteStones = 0;
+        actualQuantityBlackStones = 0;
         blackPrisonersThatWhiteGot = 0;
         whitePrisonersThatBlackGot = 0;
         whiteScore = 0;
@@ -497,6 +499,15 @@ public class Game {
     void printer2D(int[][] array) {
         for (int[] x : array) {
             for (int y : x) {
+                System.out.print(y + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    void gameShow() {
+        for (char[] x : consoleBoard) {
+            for (char y : x) {
                 System.out.print(y + " ");
             }
             System.out.println();
