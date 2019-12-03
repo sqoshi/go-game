@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Hello world!
  */
-public class App {
+public class Driver {
     public static void main(String[] args) {
         Game game1 = new Game(9);
         String[] parts;
