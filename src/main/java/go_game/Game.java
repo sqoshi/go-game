@@ -26,7 +26,8 @@ public class Game {
     private double whiteScore;
     private int blackTerritoryPoints;
     private int whiteTerritoryPoints;
-
+    //TODO: We need a method that will calculate points after the game, or in case both of player passed in row\
+    //TODO: We also need to implement matrix that will recognize deadStones/deadGroups
 
     public Game(int dismension) {
         this.dismension = dismension;
