@@ -17,11 +17,8 @@ public class Game {
     boolean[][] deadStones;//states of stones
 
     private int[] moves;
-    private int[] deadStoneDecision;//last 2 decision choosing phase
 
     private int lastGroup;
-    private boolean white;
-    private boolean black;
     private int index;
 
     private PlayerColor currentPlayer;
@@ -49,7 +46,6 @@ public class Game {
         territoryPointsBoard = new char[dismension][dismension];
         deadStones = new boolean[dismension][dismension];//states of stones
 
-        deadStoneDecision = new int[3];
         moves = new int[3];
         currentPlayer = PlayerColor.BLACK;
         index = 0;
@@ -112,6 +108,7 @@ public class Game {
             board[x][y] = newStone;
             //implement history
             updateHistoryBoard();
+
             if (CheckKO(index)) {
                 System.out.println("you cant move like this, repeat of KO is not allowed!");
                 historyBoard[index][x][y] = 0;
@@ -123,7 +120,7 @@ public class Game {
             //check suicide
             if (findGroupBreaths(actualGroup) == 0) {
                 int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
-                if (groupsWithoutBreaths[0] == 0) {//if u try to put stone in place without breathes
+                if (groupsWithoutBreaths[0] == 0) {//theres no groups without breaths
                     System.out.println("you cant kill yourself");
                     board[x][y] = null;
                     groupsBoard[x][y] = 0;
@@ -135,7 +132,7 @@ public class Game {
                             killGroup(groupsWithoutBreaths[i], newStone.getColor());
                         if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
                         else actualQuantityWhiteStones--;
-                        changePlayer();//next turn so change player
+                        changePlayer();//next turn so change player//TODO: its not working yet, cause we are chainging the player in console. But as least where we should change the player?
                     }
                 }
             } else {
@@ -152,6 +149,7 @@ public class Game {
             if (newStone != null) {
                 update(newStone);
             }
+            // printer2DB(deadStones);
             printer2D(groupsBoard);
             return newStone;
 
@@ -250,7 +248,8 @@ public class Game {
                 if (board[i][j] != null) {
                     if (board[i][j].getColor() != playerColor) {
                         breaths = findGroupBreaths(board[i][j].getGroup());
-                        if (breaths == 0 && !groups[board[i][j].getGroup()]
+                        if (breaths == 0
+                                && !groups[board[i][j].getGroup()]
                                 && board[i][j].getGroup() != actualGroup) {
                             g2k[0]++;
                             g2k[index++] = board[i][j].getGroup();
@@ -278,6 +277,7 @@ public class Game {
                     counter += breathsPerStoneInGroup(i, j, breathsMatrix);
                 }
             }
+        System.out.println(group + " group has  " + counter + " breaths");
         return counter;
     }
 
@@ -505,12 +505,24 @@ public class Game {
         }
     }
 
+    void printer2DB(boolean[][] array) {
+        for (boolean[] x : array) {
+            for (boolean y : x) {
+                System.out.print(y + " ");
+            }
+            System.out.println();
+        }
+    }
+
+
     void gameShow() {
+        System.out.println();
         for (char[] x : consoleBoard) {
             for (char y : x) {
                 System.out.print(y + " ");
             }
             System.out.println();
         }
+        System.out.println();
     }
 }
