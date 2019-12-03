@@ -3,11 +3,13 @@ package go_game;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+//Field class for represent player pawns
 public class Field extends Circle {
     private int player;
-    private int x,y;
+    private int x, y;
 
-    public Field(int x, int y){
+    //setting properties of single field  and adding listener to field
+    public Field(int x, int y) {
         this.x = x;
         this.y = y;
 

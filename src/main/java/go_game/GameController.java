@@ -7,13 +7,16 @@ public class GameController {
     private static GameController gameController = null;
 
     //    for Singleton Pattern
-    private GameController() {}
+    private GameController() {
+    }
 
     Game game = new Game(9);
-    void onFieldClicked(Field field){
+
+    void onFieldClicked(Field field) {
 
         field.setFill(Color.WHITE);
     }
+
     //	Singleton Pattern
     static GameController getInstance() {
         if (gameController == null) {
