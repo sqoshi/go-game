@@ -49,6 +49,12 @@
       <artifactId>javafx-swing</artifactId>
       <version>13-ea+14b</version>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.9</version>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
 
