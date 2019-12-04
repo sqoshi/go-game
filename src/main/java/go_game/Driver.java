@@ -16,6 +16,46 @@ public class Driver {
             try {
                 String str = new Scanner(System.in).next();
                 parts = str.split(",");
+
+              // game1.updateBoard(PlayerColor.BLACK, 4,4);
+              // game1.updateBoard(PlayerColor.BLACK, 5,5);
+              // game1.updateBoard(PlayerColor.BLACK, 5,3);
+              // game1.updateBoard(PlayerColor.BLACK, 6,4);
+              // game1.updateBoard(PlayerColor.BLACK, 6,3);
+              // game1.updateBoard(PlayerColor.BLACK, 6,4);
+              // game1.updateBoard(PlayerColor.WHITE,4,3);
+              // game1.updateBoard(PlayerColor.WHITE,5,2);
+              // game1.updateBoard(PlayerColor.WHITE,6,2);
+              // game1.updateBoard(PlayerColor.WHITE,7,3);
+              // game1.updateBoard(PlayerColor.WHITE,7,4);
+              // game1.updateBoard(PlayerColor.WHITE,6,5);
+
+                game1.updateBoard(PlayerColor.BLACK,2,2);
+                game1.updateBoard(PlayerColor.BLACK,2,3);
+                game1.updateBoard(PlayerColor.BLACK,2,4);
+                game1.updateBoard(PlayerColor.BLACK,2,5);
+                game1.updateBoard(PlayerColor.BLACK,2,6);
+                game1.updateBoard(PlayerColor.BLACK,2,6);
+                game1.updateBoard(PlayerColor.BLACK,4,6);
+                game1.updateBoard(PlayerColor.BLACK,5,6);
+                game1.updateBoard(PlayerColor.BLACK,6,6);
+                game1.updateBoard(PlayerColor.BLACK,3,6);
+                game1.updateBoard(PlayerColor.BLACK,3,2);
+                game1.updateBoard(PlayerColor.BLACK,4,2);
+                game1.updateBoard(PlayerColor.BLACK,5,2);
+                game1.updateBoard(PlayerColor.BLACK,6,2);
+                game1.updateBoard(PlayerColor.BLACK,6,3);
+                game1.updateBoard(PlayerColor.BLACK,6,4);
+                game1.updateBoard(PlayerColor.BLACK,6,5);
+                game1.updateBoard(PlayerColor.WHITE,3,3);
+                game1.updateBoard(PlayerColor.WHITE,3,4);
+                game1.updateBoard(PlayerColor.WHITE,3,5);
+                game1.updateBoard(PlayerColor.WHITE,5,3);
+                game1.updateBoard(PlayerColor.WHITE,5,4);
+                game1.updateBoard(PlayerColor.WHITE,5,5);
+                game1.updateBoard(PlayerColor.WHITE,4,5);
+
+
                 if (i % 2 == 0) pc = PlayerColor.BLACK;
                 else pc = PlayerColor.WHITE;
                 game1.updateBoard(pc, Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));

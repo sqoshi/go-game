@@ -122,7 +122,7 @@ public class Game {
             //check suicide
             if (findGroupBreaths(actualGroup) == 0) {
                 int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
-                if (groupsWithoutBreaths[0] == 0) {//theres no groups without breaths
+                if (groupsWithoutBreaths[0] == 0) { //theres are no groups with breaths
                     System.out.println("you cant kill yourself");
                     board[x][y] = null;
                     groupsBoard[x][y] = 0;
@@ -134,7 +134,8 @@ public class Game {
                             killGroup(groupsWithoutBreaths[i], newStone.getColor());
                         if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
                         else actualQuantityWhiteStones--;
-                        changePlayer();//next turn so change player//TODO: its not working yet, cause we are chainging the player in console. But as least where we should change the player?
+                        //changePlayer();//next turn so change player/
+                        //TODO: its not working yet, cause we are chainging the player in console. But as least where we should change the player?
                     }
                 }
             } else {
@@ -279,7 +280,6 @@ public class Game {
                     counter += breathsPerStoneInGroup(i, j, breathsMatrix);
                 }
             }
-        System.out.println(group + " group has  " + counter + " breaths");
         return counter;
     }
 
