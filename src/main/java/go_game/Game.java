@@ -132,10 +132,8 @@ public class Game {
                         System.out.println("you get point by taking prisoner");
                         for (int i = 0; i <= groupsWithoutBreaths[0]; i++)
                             killGroup(groupsWithoutBreaths[i], newStone.getColor());
-                        if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
-                        else actualQuantityWhiteStones--;
+                        decreaseQuantityOfStones(newStone);
                         //changePlayer();//next turn so change player/
-                        //TODO: its not working yet, cause we are chainging the player in console. But as least where we should change the player?
                     }
                 }
             } else {
@@ -145,31 +143,36 @@ public class Game {
                 if (pointsWhiteForPrisoners != blackPrisonersThatWhiteGot
                         || pointsBlackForPrisoners != whitePrisonersThatBlackGot)
                     System.out.println("sth was taken to jail");//mean that u got a point for killing some units on ur map
-                if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
-                else actualQuantityWhiteStones--;
+                decreaseQuantityOfStones(newStone);
                 changePlayer();
             }
-            if (newStone != null) {
-                update(newStone);
-            }
-            // printer2DB(deadStones);
-            printer2D(groupsBoard);
+            update(newStone);
             return newStone;
 
         }
 
     }
 
+    private void decreaseQuantityOfStones(Stone newStone) {
+        if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
+        else actualQuantityWhiteStones--;
+    }
+
+
     private void update(Stone newStone) {
-        updateConsoleBoard(newStone);
-        groupsBoard[newStone.getX()][newStone.getY()] = newStone.getGroup();
-        index++;
-        updateMoves(1);
+        if (newStone != null) {
+            updateConsoleBoard(newStone);
+            groupsBoard[newStone.getX()][newStone.getY()] = newStone.getGroup();
+            index++;
+            updateMoves(1);
+        }
     }
 
     private void updateConsoleBoard(Stone stone) {
-        if (stone.getColor().equals(PlayerColor.BLACK)) consoleBoard[stone.getX()][stone.getY()] = 'B';
-        if (stone.getColor().equals(PlayerColor.WHITE)) consoleBoard[stone.getX()][stone.getY()] = 'W';
+        if (stone.getColor().equals(PlayerColor.BLACK))
+            consoleBoard[stone.getX()][stone.getY()] = 'B';
+        else
+            consoleBoard[stone.getX()][stone.getY()] = 'W';
     }
 
     private void updateMoves(int value) {
@@ -202,6 +205,16 @@ public class Game {
             killGroup(left, stone.getColor());
         if (right != actualGroup && findGroupBreaths(right) == 0)
             killGroup(right, stone.getColor());
+    }
+
+    /**
+     * pass method
+     */
+    PlayerColor pass() {
+        changePlayer();
+        index++;
+        updateMoves(-1);
+        return currentPlayer;
     }
 
     /**
@@ -362,11 +375,11 @@ public class Game {
         }
     }
 
-    private boolean isPositionAvaible(int x, int y) {
+    public boolean isPositionAvaible(int x, int y) {
         return board[x][y] == null;
     }
 
-    private boolean isInsideBoard(int x, int y) {
+    public boolean isInsideBoard(int x, int y) {
         return ((x < dismension) && (x > -1) && (y < dismension) && (y > -1));
     }
 
@@ -377,7 +390,7 @@ public class Game {
      * @param dir
      * @return
      */
-    private boolean isLineValid(int n, Direction dir) {
+    public boolean isLineValid(int n, Direction dir) {
         if (dir.equals(Direction.UP) || dir.equals(Direction.LEFT)) {
             return n > 0;
         } else
