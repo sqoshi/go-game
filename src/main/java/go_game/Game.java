@@ -502,4 +502,5 @@ public class Game {
             System.out.println();
         }
     }
+    char[][] getConsoleBoard(){return consoleBoard;}
 }

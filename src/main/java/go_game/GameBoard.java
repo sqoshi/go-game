@@ -29,6 +29,8 @@ public class GameBoard extends GridPane {
                 this.getChildren().add(fields[i][j]);
             }
         }
-
+    }
+    Field[][] getFields(){
+        return fields;
     }
 }
