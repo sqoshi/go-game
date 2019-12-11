@@ -1,5 +1,6 @@
 package go_game.GUI;
 
+import go_game.PlayerColor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -7,6 +8,7 @@ import javafx.scene.shape.Circle;
 public class Field extends Circle {
     private int player;
     private int x, y;
+    int counter = 0;
 
     //setting properties of single field  and adding listener to field
     public Field(int y, int x) {
@@ -17,8 +19,16 @@ public class Field extends Circle {
         setStrokeWidth(1);
         setFill(Color.TRANSPARENT);
         setStroke(Color.BLACK);
-        setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(this));
+        counter++;
+        setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(this,PlayerColor.BLACK));
+        setOnMouseDragged(t -> GameController.getInstance().onFieldClicked(this, PlayerColor.WHITE));
     }
-    int getX(){return x;}
-    int getY(){return y;}
+
+    int getX() {
+        return x;
+    }
+
+    int getY() {
+        return y;
+    }
 }

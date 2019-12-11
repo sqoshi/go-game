@@ -133,6 +133,7 @@ public class Game {
             //check suicide
             if (findGroupBreaths(actualGroup) == 0) {
                 int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
+                System.out.println("Groups without breaths; " + groupsWithoutBreaths.toString());
                 if (groupsWithoutBreaths[0] == 0) { //theres are no groups with breaths
                     System.out.println("you cant kill yourself");
                     board[x][y] = null;

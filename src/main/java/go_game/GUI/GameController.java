@@ -18,9 +18,8 @@ public class GameController {
     Game game = new Game(9);
 
 
-    void onFieldClicked(Field field) {
-
-        game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
+    void onFieldClicked(Field field, PlayerColor pc) {
+        game.updateBoard(pc, field.getX(), field.getY());
         refreshBoard(9);
     }
 
@@ -33,6 +32,9 @@ public class GameController {
                 }
                 if (consoleBoard[i][k] == 'W') {
                     fields[k][i].setFill(Color.WHITE);
+                }
+                if(consoleBoard[i][k]=='.'){
+                    fields[k][i].setFill(Color.TRANSPARENT);
                 }
             }
         }
