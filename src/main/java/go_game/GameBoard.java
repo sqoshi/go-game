@@ -22,7 +22,7 @@ public class GameBoard extends GridPane {
         //creating fields
         for (int i = 0; i < dimension ; i++) {
             for (int j = 0; j < dimension ; j++) {
-                fields[i][j] = new Field(j, i);
+                fields[i][j] = new Field(i, j);
 
                 GridPane.setConstraints(fields[i][j], i, j);
 

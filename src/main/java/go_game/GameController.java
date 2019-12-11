@@ -17,7 +17,7 @@ public class GameController {
 
     void onFieldClicked(Field field) {
 
-        game.updateBoard(PlayerColor.BLACK, field.getY(), field.getX());
+        game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
         refreshBoard(9);
     }
 
@@ -26,10 +26,10 @@ public class GameController {
         for(int i=0;i<dimension;i++){
             for(int k=0;k<dimension;k++){
                 if(consoleBoard[i][k]=='B'){
-                    fields[i][k].setFill(Color.BLACK);
+                    fields[k][i].setFill(Color.BLACK);
                 }
                 if(consoleBoard[i][k]=='W'){
-                    fields[i][k].setFill(Color.WHITE);
+                    fields[k][i].setFill(Color.WHITE);
                 }
             }
         }
