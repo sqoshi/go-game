@@ -69,7 +69,7 @@ public class Driver {
                 game1.updateBoard(pc, Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
 
                 i++;
-                game1.gameShow();
+                game1.showBoard();
             } catch (Exception ex) {
                 System.out.println("you need to input data like x,y");
                 i--;

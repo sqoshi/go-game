@@ -3,11 +3,7 @@ package go_game;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import static go_game.Direction.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
     Game game = new Game(9);
@@ -73,7 +69,29 @@ class GameTest {
         game.updateBoard(PlayerColor.WHITE, 1, 0);
         game.updateBoard(PlayerColor.WHITE, 0, 1);
         game.updateBoard(PlayerColor.WHITE, 2, 1);
-        String expectedValue = "sth was taken to jail";
-        Assert.assertEquals(0,game.getGroupsBoard()[1][1]);
+        Assert.assertEquals(0, game.getGroupsBoard()[1][1]);
+    }
+
+    @Test
+    public void testCheckKO(){
+        game.updateBoard(PlayerColor.BLACK, 1, 2);
+        game.updateBoard(PlayerColor.BLACK, 3, 2);
+        game.updateBoard(PlayerColor.WHITE, 3, 3);
+        game.updateBoard(PlayerColor.WHITE, 2, 4);
+        game.updateBoard(PlayerColor.WHITE, 1, 3);
+        game.updateBoard(PlayerColor.BLACK, 2, 1);
+        game.updateBoard(PlayerColor.WHITE, 2, 2);
+        game.updateBoard(PlayerColor.BLACK, 2, 3);
+        Assert.assertEquals(0, game.getGroupsBoard()[2][2]);
+    }
+    @Test void checkSuicide(){
+        game.updateBoard(PlayerColor.BLACK,4,4);
+        game.updateBoard(PlayerColor.BLACK,5,5);
+        game.updateBoard(PlayerColor.BLACK,5,3);
+        game.updateBoard(PlayerColor.BLACK,6,4);
+        game.showBoard();
+        game.updateBoard(PlayerColor.WHITE,5,4);
+        game.showBoard();
+        Assert.assertEquals(0,game.getGroupsBoard()[5][4]);
     }
 }

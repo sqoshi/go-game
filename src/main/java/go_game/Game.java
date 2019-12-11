@@ -539,15 +539,4 @@ public class Game {
         }
     }
 
-
-    void gameShow() {
-        System.out.println();
-        for (char[] x : consoleBoard) {
-            for (char y : x) {
-                System.out.print(y + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
 }
