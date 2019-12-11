@@ -9,9 +9,9 @@ public class Field extends Circle {
     private int x, y;
 
     //setting properties of single field  and adding listener to field
-    public Field(int x, int y) {
-        this.x = x;
+    public Field(int y, int x) {
         this.y = y;
+        this.x = x;
 
         setRadius(30);
         setStrokeWidth(1);
@@ -19,4 +19,6 @@ public class Field extends Circle {
         setStroke(Color.BLACK);
         setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(this));
     }
+    int getX(){return x;}
+    int getY(){return y;}
 }

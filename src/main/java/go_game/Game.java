@@ -14,6 +14,11 @@ public class Game {
     private int blackPrisonersThatWhiteGot;
 
     public Stone[][] board;
+
+    public char[][] getConsoleBoard() {
+        return consoleBoard;
+    }
+
     private char[][] consoleBoard;
 
     public int[][] getGroupsBoard() {
