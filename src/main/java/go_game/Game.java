@@ -1,5 +1,9 @@
 package go_game;
 
+import go_game.Observer.PlayerStateObserver;
+import go_game.State.Play;
+import go_game.State.PlayerState;
+
 public class Game {
     private int dismension;
     private static int totalBlackStones;
@@ -41,7 +45,6 @@ public class Game {
         whitePrisonersThatBlackGot = 0;
         whiteScore = 0;
         blackScore = 0;
-
         board = new Stone[dismension][dismension];
         consoleBoard = new char[dismension][dismension];
         groupsBoard = new int[dismension][dismension]; // W groups - B groups
@@ -88,6 +91,7 @@ public class Game {
 
 
     public Stone updateBoard(PlayerColor stoneColor, int x, int y) {
+        PlayerState playerState = PlayerState.Play;
         //check if x,y is inside board.
         if (!isInsideBoard(x, y)) {
             System.out.println("Bad range.!");
@@ -147,6 +151,7 @@ public class Game {
                 changePlayer();
             }
             update(newStone);
+            printer2D(groupsBoard);
             return newStone;
 
         }
@@ -193,10 +198,12 @@ public class Game {
      * @param stone
      */
     private void afterInsertCheck(int actualGroup, Stone stone) {
+
         int up = getAdjacentGroups(stone, false, Direction.UP);
         int down = getAdjacentGroups(stone, false, Direction.DOWN);
         int right = getAdjacentGroups(stone, false, Direction.RIGHT);
         int left = getAdjacentGroups(stone, false, Direction.LEFT);
+
         if (up != actualGroup && findGroupBreaths(up) == 0)
             killGroup(up, stone.getColor());
         if (down != actualGroup && findGroupBreaths(down) == 0)

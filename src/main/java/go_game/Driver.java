@@ -1,5 +1,8 @@
 package go_game;
 
+import go_game.Builder.GameFactory;
+import go_game.Builder.GameI;
+
 import java.util.Scanner;
 
 /**
@@ -7,7 +10,8 @@ import java.util.Scanner;
  */
 public class Driver {
     public static void main(String[] args) {
-        Game game1 = new Game(9);
+        GameI gameI = GameFactory.getGame(9);
+        Game game1 = gameI.createGame();
         String[] parts;
         int i = 0;
         PlayerColor pc;
@@ -55,7 +59,7 @@ public class Driver {
                game1.updateBoard(PlayerColor.WHITE,5,5);
                game1.updateBoard(PlayerColor.WHITE,4,5);
                game1.updateBoard(PlayerColor.WHITE,4,3);
-//
+
 
                 if (i % 2 == 0) pc = PlayerColor.BLACK;
                 else pc = PlayerColor.WHITE;
