@@ -13,9 +13,14 @@ public class Game {
     private int whitePrisonersThatBlackGot;
     private int blackPrisonersThatWhiteGot;
 
-    private Stone[][] board;
+    public Stone[][] board;
     private char[][] consoleBoard;
-    private int[][] groupsBoard; // W groups - B groups
+
+    public int[][] getGroupsBoard() {
+        return groupsBoard;
+    }
+
+    int[][] groupsBoard; // W groups - B groups
     private int[][][] historyBoard;
     private char[][] territoryPointsBoard;
     boolean[][] deadStones;//states of stones
@@ -154,6 +159,7 @@ public class Game {
         }
 
     }
+
 
     private void decreaseQuantityOfStones(Stone newStone) {
         if (newStone.getColor().equals(PlayerColor.BLACK)) actualQuantityBlackStones--;
