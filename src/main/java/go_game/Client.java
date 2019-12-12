@@ -64,7 +64,7 @@ public class Client{
 //            boardPanel.add(board[i]);
 //        }
 //        frame.getContentPane().add(boardPanel, BorderLayout.CENTER);
-        gameBoard = new GameBoard(9,out);
+        gameBoard = new GameBoard(9,out,this);
     }
 
     /**
@@ -76,8 +76,9 @@ public class Client{
      * play another game. If the answer is no, the loop is exited and the server
      * is sent a "QUIT" message.
      */
-    public void play() throws Exception {
+    public void play() throws Exception{
         try {
+            System.out.println("HTHYHY "+in.nextLine());
             var response = in.nextLine();
             var mark = response.charAt(8);
             var opponentMark = mark == 'X' ? 'O' : 'X';

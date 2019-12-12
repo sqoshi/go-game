@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 public class GameBoard extends GridPane {
     private Field[][] fields;
 
-    GameBoard(int dimension, PrintWriter ou) {
+    GameBoard(int dimension, PrintWriter ou,Client cl) {
         fields = new Field[dimension][dimension];
         PrintWriter out=ou;
         //setting board background
@@ -33,8 +33,11 @@ public class GameBoard extends GridPane {
                 somefield.setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(somefield,out));
             }
         }
+
     }
+
     Field[][] getFields(){
         return fields;
     }
+
 }

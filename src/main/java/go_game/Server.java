@@ -130,7 +130,7 @@ class Gamee {
                 if (command.startsWith("QUIT")) {
                     return;
                 } else if (command.startsWith("MOVE")) {
-                   System.out.println("DZIALA");
+                  output.println("DZIALA");
                 }
             }
         }
