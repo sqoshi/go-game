@@ -4,6 +4,8 @@ import go_game.Observer.PlayerStateObserver;
 import go_game.State.Play;
 import go_game.State.PlayerState;
 
+import java.util.Arrays;
+
 public class Game {
     private int dismension;
     private static int totalBlackStones;
@@ -133,7 +135,7 @@ public class Game {
             //check suicide
             if (findGroupBreaths(actualGroup) == 0) {
                 int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
-                System.out.println("Groups without breaths; " + groupsWithoutBreaths.toString());
+                System.out.println("Groups without breaths; " + Arrays.toString(groupsWithoutBreaths));
                 if (groupsWithoutBreaths[0] == 0) { //theres are no groups with breaths
                     System.out.println("you cant kill yourself");
                     board[x][y] = null;
@@ -141,9 +143,11 @@ public class Game {
                     newStone = null;
                 } else {
                     if (groupsWithoutBreaths[0] > 0) {
-                        System.out.println("you get point by taking prisoner");
-                        for (int i = 0; i <= groupsWithoutBreaths[0]; i++)
+                        System.out.println("you get point by taking prisoner: " + groupsWithoutBreaths[0]);
+                        for (int i = 0; i <= groupsWithoutBreaths[0]; i++) {
+                            System.out.println(groupsWithoutBreaths[i]);
                             killGroup(groupsWithoutBreaths[i], newStone.getColor());
+                        }
                         decreaseQuantityOfStones(newStone);
                         //changePlayer();//next turn so change player/
                     }
@@ -159,6 +163,7 @@ public class Game {
                 changePlayer();
             }
             update(newStone);
+            System.out.println("-----------------------");
             printer2D(groupsBoard);
             return newStone;
 
@@ -269,7 +274,7 @@ public class Game {
      * @return
      */
     private int[] getGroups2kill(int actualGroup, PlayerColor playerColor) {
-        int[] g2k = new int[dismension ^ 2];
+        int[] g2k = new int[(int) Math.pow(dismension, 2)];
         g2k[0] = 0;
         int index = 0;
         int breaths;

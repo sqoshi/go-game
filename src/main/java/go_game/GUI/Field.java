@@ -1,6 +1,7 @@
 package go_game.GUI;
 
 import go_game.PlayerColor;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -20,8 +21,13 @@ public class Field extends Circle {
         setFill(Color.TRANSPARENT);
         setStroke(Color.BLACK);
         counter++;
-        setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(this,PlayerColor.BLACK));
-        setOnMouseDragged(t -> GameController.getInstance().onFieldClicked(this, PlayerColor.WHITE));
+        setOnMouseClicked(t -> {
+            if (t.getButton() == MouseButton.PRIMARY)
+                GameController.getInstance().onFieldClicked(this, PlayerColor.BLACK);
+            else if (t.getButton() == MouseButton.SECONDARY)
+                GameController.getInstance().onFieldClicked(this, PlayerColor.WHITE);
+
+        });
     }
 
     int getX() {
