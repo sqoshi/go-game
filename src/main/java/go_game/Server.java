@@ -127,11 +127,10 @@ class Gamee {
         private void processCommands() {
             while (input.hasNextLine()) {
                 var command = input.nextLine();
-                System.out.println(command);
                 if (command.startsWith("QUIT")) {
                     return;
                 } else if (command.startsWith("MOVE")) {
-                  output.println("DZIALA");
+                   System.out.println("DZIALA");
                 }
             }
         }

@@ -24,7 +24,7 @@ public class GameController {
         refreshBoard(9);
     }
     void onButtonClicked(){
-        
+
     }
 
     void refreshBoard(int dimension){

@@ -39,7 +39,7 @@ public class GameBoard extends GridPane {
         }
         Rectangle rectangle = new Rectangle(80,30);
         rectangle.setFill(Color.BLACK);
-        this.add(rectangle,4,9);
+        this.add(rectangle,4,9,2,2);
         rectangle.setOnMouseClicked(t -> GameController.getInstance().onButtonClicked());
 
 
