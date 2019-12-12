@@ -17,7 +17,7 @@ public class Field extends Circle {
         setStrokeWidth(1);
         setFill(Color.TRANSPARENT);
         setStroke(Color.BLACK);
-        setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(this));
+//        setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(this));
     }
     int getX(){return x;}
     int getY(){return y;}

@@ -2,6 +2,8 @@ package go_game;
 
 import javafx.scene.paint.Color;
 
+import java.io.PrintWriter;
+
 public class GameController {
     Field[][] fields;
     //    for Singleton Pattern
@@ -15,8 +17,9 @@ public class GameController {
     Game game = new Game(9);
 
 
-    void onFieldClicked(Field field) {
-
+    void onFieldClicked(Field field, PrintWriter out) {
+        out.println("MOVE " + field.getY() + " " +field.getX());
+        System.out.println("MOVE " + field.getY() + " " +field.getX());
         game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
         refreshBoard(9);
     }

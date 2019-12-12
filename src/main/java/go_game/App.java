@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.PrintWriter;
 
 
 /**
@@ -18,7 +19,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        GameBoard layout = new GameBoard(9);
+        Client client = new Client("127.0.0.1");
+        GameBoard layout = client.gameBoard;
         GameController.getInstance().setFields(layout.getFields());
         stage.setScene(new Scene(layout,900,900));
         stage.setResizable(false);

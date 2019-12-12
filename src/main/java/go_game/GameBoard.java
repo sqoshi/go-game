@@ -5,13 +5,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.transform.Translate;
 
+import java.io.PrintWriter;
+
 //class for Board GUI
 public class GameBoard extends GridPane {
     private Field[][] fields;
 
-    GameBoard(int dimension) {
+    GameBoard(int dimension, PrintWriter ou) {
         fields = new Field[dimension][dimension];
-
+        PrintWriter out=ou;
         //setting board background
         Image img = new Image("https://cdn.discordapp.com/attachments/393098632213037060/651216725664071680/bitmap.png");
         this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
@@ -27,6 +29,8 @@ public class GameBoard extends GridPane {
                 GridPane.setConstraints(fields[i][j], i, j);
 
                 this.getChildren().add(fields[i][j]);
+                Field somefield = fields[i][j];
+                somefield.setOnMouseClicked(t -> GameController.getInstance().onFieldClicked(somefield,out));
             }
         }
     }
