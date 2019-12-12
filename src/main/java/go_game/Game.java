@@ -64,7 +64,7 @@ public class Game {
         currentPlayer = PlayerColor.BLACK;
         index = 0;
 
-        historyBoard = new int[(int) Math.pow(dismension, 2)][dismension][dismension];
+        historyBoard = new int[(int) Math.pow(Math.pow(dismension, 2),2)][dismension][dismension];
 
         //printing empty console
         emptyConsolePrinter(dismension);
