@@ -110,15 +110,12 @@ public class Game {
             try {
 
                 if (CheckKO(index)) {
-                    setPlayerState(playerState.surrender());
-                    System.out.println(playerState.getState());
                     System.out.println("you cant move like this, repeat of KO is not allowed!");
                     historyBoard[index][x][y] = 0;
                     newStone = null;
                     board[x][y] = null;
                 } else
                     board[x][y] = newStone;
-                System.out.println(playerState.getState());
                 //check suicide
                 if (findGroupBreaths(actualGroup) == 0) {
                     int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
@@ -222,7 +219,7 @@ public class Game {
     /**
      * pass method
      */
-    PlayerColor pass() {
+    public PlayerColor pass() {
         changePlayer();
         index++;
         updateMoves(-1);
@@ -532,15 +529,6 @@ public class Game {
     void printer2D(int[][] array) {
         for (int[] x : array) {
             for (int y : x) {
-                System.out.print(y + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    void printer2DB(boolean[][] array) {
-        for (boolean[] x : array) {
-            for (boolean y : x) {
                 System.out.print(y + " ");
             }
             System.out.println();

@@ -41,7 +41,7 @@ public class GameBoard extends GridPane {
         surrender.setOnMouseClicked(t -> GameController.getInstance().
                 onSurrenderButtonClicked());
         pass.setFill(Color.DEEPSKYBLUE);
-        this.add(pass, 6, 9, 2, 2);
+        this.add(pass, 7, 9, 2, 2);
         pass.setOnMouseClicked(t -> GameController.getInstance().
                 onPassButtonClicked());
 

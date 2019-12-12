@@ -30,10 +30,12 @@ public class GameController {
     void onPassButtonClicked() {
         game.setPlayerState(game.getPlayerState().pass());
         System.out.println(game.getPlayerState().getState());
+        game.pass();
     }
     void onSurrenderButtonClicked() {
         game.setPlayerState(game.getPlayerState().surrender());
         System.out.println(game.getPlayerState().getState());
+        System.exit(0);
     }
 
 
