@@ -78,13 +78,14 @@ public class Client{
      */
     public void play() throws Exception{
         try {
-            System.out.println("HTHYHY "+in.nextLine());
             var response = in.nextLine();
             var mark = response.charAt(8);
+            System.out.println(response + "         "+mark);
             var opponentMark = mark == 'X' ? 'O' : 'X';
 //            frame.setTitle("Tic Tac Toe: Player " + mark);
             while (in.hasNextLine()) {
                 response = in.nextLine();
+                System.out.println(response);
                 if (response.startsWith("VALID_MOVE")) {
 //                    messageLabel.setText("Valid move, please wait");
 //                    currentSquare.setText(mark);

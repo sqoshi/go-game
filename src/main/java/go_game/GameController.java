@@ -23,6 +23,9 @@ public class GameController {
         game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
         refreshBoard(9);
     }
+    void onButtonClicked(){
+        
+    }
 
     void refreshBoard(int dimension){
         char[][] consoleBoard = game.getConsoleBoard();
