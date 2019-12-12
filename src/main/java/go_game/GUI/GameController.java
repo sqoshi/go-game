@@ -5,6 +5,7 @@ import go_game.Factory.GameFactory;
 import go_game.Factory.GameI;
 import go_game.Game;
 import go_game.PlayerColor;
+import go_game.State.PlayerState;
 import javafx.scene.paint.Color;
 
 public class GameController {
@@ -21,10 +22,20 @@ public class GameController {
     Game game = gameI.createGame();
 
 
-    void onFieldClicked(Field field, PlayerColor pc) throws java.lang.NullPointerException{
+    void onFieldClicked(Field field, PlayerColor pc) throws java.lang.NullPointerException {
         game.updateBoard(pc, field.getX(), field.getY());
         refreshBoard(9);
     }
+
+    void onPassButtonClicked() {
+        game.setPlayerState(game.getPlayerState().pass());
+        System.out.println(game.getPlayerState().getState());
+    }
+    void onSurrenderButtonClicked() {
+        game.setPlayerState(game.getPlayerState().surrender());
+        System.out.println(game.getPlayerState().getState());
+    }
+
 
     void refreshBoard(int dimension) {
         char[][] consoleBoard = game.getConsoleBoard();
@@ -36,7 +47,7 @@ public class GameController {
                 if (consoleBoard[i][k] == 'W') {
                     fields[k][i].setFill(Color.WHITE);
                 }
-                if(consoleBoard[i][k]=='.'){
+                if (consoleBoard[i][k] == '.') {
                     fields[k][i].setFill(Color.TRANSPARENT);
                 }
             }

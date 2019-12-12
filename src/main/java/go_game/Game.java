@@ -83,6 +83,7 @@ public class Game {
 
 
     public Stone updateBoard(PlayerColor stoneColor, int x, int y) throws NullPointerException {
+        setPlayerState(playerState.play());
         System.out.println(playerState.getState());
         //check if x,y is inside board.
         if (!isInsideBoard(x, y)) {
