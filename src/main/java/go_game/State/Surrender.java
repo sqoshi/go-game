@@ -1,9 +1,10 @@
 package go_game.State;
 
-public class Pass implements PlayerStateBehavior {
+
+public class Surrender implements PlayerStateBehavior {
     @Override
     public PlayerState getState() {
-        return PlayerState.Pass;
+        return PlayerState.Surrender;
     }
 
     @Override
@@ -13,11 +14,11 @@ public class Pass implements PlayerStateBehavior {
 
     @Override
     public PlayerStateBehavior pass() {
-        return this;
+        return PlayerState.Pass.getPlayerStateBehavior();
     }
 
     @Override
     public PlayerStateBehavior surrender() {
-        return PlayerState.Surrender.getPlayerStateBehavior();
+        return this;
     }
 }

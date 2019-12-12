@@ -1,6 +1,8 @@
 package go_game.GUI;
 
 
+import go_game.Factory.GameFactory;
+import go_game.Factory.GameI;
 import go_game.Game;
 import go_game.PlayerColor;
 import javafx.scene.paint.Color;
@@ -15,10 +17,11 @@ public class GameController {
 
     }
 
-    Game game = new Game(9);
+    GameI gameI = GameFactory.getGame(9);
+    Game game = gameI.createGame();
 
 
-    void onFieldClicked(Field field, PlayerColor pc) {
+    void onFieldClicked(Field field, PlayerColor pc) throws java.lang.NullPointerException{
         game.updateBoard(pc, field.getX(), field.getY());
         refreshBoard(9);
     }

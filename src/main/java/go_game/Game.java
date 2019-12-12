@@ -1,8 +1,9 @@
 package go_game;
 
-import go_game.Observer.PlayerStateObserver;
 import go_game.State.Play;
 import go_game.State.PlayerState;
+import go_game.State.PlayerStateBehavior;
+import go_game.State.Surrender;
 
 import java.util.Arrays;
 
@@ -17,6 +18,16 @@ public class Game {
 
     public Stone[][] board;
 
+    public PlayerStateBehavior getPlayerState() {
+        return playerState;
+    }
+
+    public void setPlayerState(PlayerStateBehavior playerState) {
+        this.playerState = playerState;
+    }
+
+    PlayerStateBehavior playerState;
+
     public char[][] getConsoleBoard() {
         return consoleBoard;
     }
@@ -29,11 +40,10 @@ public class Game {
 
     int[][] groupsBoard; // W groups - B groups
     private int[][][] historyBoard;
-    private char[][] territoryPointsBoard;
     boolean[][] deadStones;//states of stones
 
     private int[] moves;
-
+    char[][] territoryPointsBoard;
     private int lastGroup;
     private int index;
 
@@ -64,43 +74,16 @@ public class Game {
         currentPlayer = PlayerColor.BLACK;
         index = 0;
 
-        historyBoard = new int[(int) Math.pow(Math.pow(dismension, 2),2)][dismension][dismension];
+        historyBoard = new int[(int) Math.pow(Math.pow(dismension, 2), 2)][dismension][dismension];
+        playerState = new Play();
 
         //printing empty console
         emptyConsolePrinter(dismension);
     }
 
-    private void emptyConsolePrinter(int dismension) {
-        for (int i = 0; i < dismension; i++)
-            for (int j = 0; j < dismension; j++) {
-                if (dismension == 9) {
-                    if (((i % 2) == 0) && ((i % 4) != 0)
-                            && ((j % 2) == 0) && ((j % 4) != 0))
-                        consoleBoard[i][j] = '+';
-                    else
-                        consoleBoard[i][j] = '.';
-                } else if (dismension == 19) {
-                    if (((i % 3) == 0) && ((i % 6) != 0)
-                            && ((j % 3) == 0) && ((j % 6) != 0))
-                        consoleBoard[i][j] = '+';
-                    else
-                        consoleBoard[i][j] = '.';
-                } else if (dismension == 13) {
-                    if (((i % 3) == 0) && ((i % 2) != 0)
-                            && ((j % 3) == 0) && ((j % 2) != 0) || (i == 6 && j == 6))
-                        consoleBoard[i][j] = '+';
-                    else
-                        consoleBoard[i][j] = '.';
-                } else {
-                    System.out.println("Size need to be from set{19,13,9}");
-                    System.exit(1);
-                }
-            }
-    }
 
-
-    public Stone updateBoard(PlayerColor stoneColor, int x, int y) {
-        PlayerState playerState = PlayerState.Play;
+    public Stone updateBoard(PlayerColor stoneColor, int x, int y) throws NullPointerException {
+        System.out.println(playerState.getState());
         //check if x,y is inside board.
         if (!isInsideBoard(x, y)) {
             System.out.println("Bad range.!");
@@ -123,44 +106,50 @@ public class Game {
             board[x][y] = newStone;
             //implement history
             updateHistoryBoard();
+            try {
 
-            if (CheckKO(index)) {
-                System.out.println("you cant move like this, repeat of KO is not allowed!");
-                historyBoard[index][x][y] = 0;
-                newStone = null;
-                board[x][y] = null;
-            } else
-                board[x][y] = newStone;
-
-            //check suicide
-            if (findGroupBreaths(actualGroup) == 0) {
-                int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
-                System.out.println("Groups without breaths; " + Arrays.toString(groupsWithoutBreaths));
-                if (groupsWithoutBreaths[0] == 0) { //theres are no groups with breaths
-                    System.out.println("you cant kill yourself");
-                    board[x][y] = null;
-                    groupsBoard[x][y] = 0;
+                if (CheckKO(index)) {
+                    setPlayerState(playerState.surrender());
+                    System.out.println(playerState.getState());
+                    System.out.println("you cant move like this, repeat of KO is not allowed!");
+                    historyBoard[index][x][y] = 0;
                     newStone = null;
-                } else {
-                    if (groupsWithoutBreaths[0] > 0) {
-                        System.out.println("you get point by taking prisoner: " + groupsWithoutBreaths[0]);
-                        for (int i = 0; i <= groupsWithoutBreaths[0]; i++) {
-                            System.out.println(groupsWithoutBreaths[i]);
-                            killGroup(groupsWithoutBreaths[i], newStone.getColor());
+                    board[x][y] = null;
+                } else
+                    board[x][y] = newStone;
+                System.out.println(playerState.getState());
+                //check suicide
+                if (findGroupBreaths(actualGroup) == 0) {
+                    int[] groupsWithoutBreaths = getGroups2kill(actualGroup, newStone.getColor());
+                    System.out.println("Groups without breaths; " + Arrays.toString(groupsWithoutBreaths));
+                    if (groupsWithoutBreaths[0] == 0) { //theres are no groups with breaths
+                        System.out.println("you cant kill yourself");
+                        board[x][y] = null;
+                        groupsBoard[x][y] = 0;
+                        newStone = null;
+                    } else {
+                        if (groupsWithoutBreaths[0] > 0) {
+                            System.out.println("you get point by taking prisoner: " + groupsWithoutBreaths[0]);
+                            for (int i = 0; i <= groupsWithoutBreaths[0]; i++) {
+                                System.out.println(groupsWithoutBreaths[i]);
+                                killGroup(groupsWithoutBreaths[i], newStone.getColor());
+                            }
+                            decreaseQuantityOfStones(newStone);
+                            //changePlayer();//next turn so change player/
                         }
-                        decreaseQuantityOfStones(newStone);
-                        //changePlayer();//next turn so change player/
                     }
+                } else {
+                    int pointsWhiteForPrisoners = blackPrisonersThatWhiteGot;
+                    int pointsBlackForPrisoners = whitePrisonersThatBlackGot;
+                    afterInsertCheck(actualGroup, newStone);
+                    if (pointsWhiteForPrisoners != blackPrisonersThatWhiteGot
+                            || pointsBlackForPrisoners != whitePrisonersThatBlackGot)
+                        System.out.println("sth was taken to jail");//mean that u got a point for killing some units on ur map
+                    decreaseQuantityOfStones(newStone);
+                    changePlayer();
                 }
-            } else {
-                int pointsWhiteForPrisoners = blackPrisonersThatWhiteGot;
-                int pointsBlackForPrisoners = whitePrisonersThatBlackGot;
-                afterInsertCheck(actualGroup, newStone);
-                if (pointsWhiteForPrisoners != blackPrisonersThatWhiteGot
-                        || pointsBlackForPrisoners != whitePrisonersThatBlackGot)
-                    System.out.println("sth was taken to jail");//mean that u got a point for killing some units on ur map
-                decreaseQuantityOfStones(newStone);
-                changePlayer();
+            } catch (NullPointerException ne) {
+                System.out.println("i hope its repaired");
             }
             update(newStone);
             System.out.println("-----------------------");
@@ -228,6 +217,7 @@ public class Game {
             killGroup(right, stone.getColor());
     }
 
+
     /**
      * pass method
      */
@@ -274,7 +264,7 @@ public class Game {
      * @return
      */
     private int[] getGroups2kill(int actualGroup, PlayerColor playerColor) {
-        int[] g2k = new int[(int) Math.pow(dismension, 2)];
+        int[] g2k = new int[(int) Math.pow(Math.pow(dismension, 2), 2)];
         g2k[0] = 0;
         int index = 0;
         int breaths;
@@ -361,6 +351,12 @@ public class Game {
             }
     }
 
+    /**
+     * checks infinite loop of KO
+     *
+     * @param index
+     * @return
+     */
     private boolean CheckKO(int index) {
         if (index > 1) {
             for (int i = 0; i < dismension; ++i) {
@@ -550,4 +546,32 @@ public class Game {
         }
     }
 
+    private void emptyConsolePrinter(int dismension) {
+        for (int i = 0; i < dismension; i++)
+            for (int j = 0; j < dismension; j++) {
+                if (dismension == 9) {
+                    if (((i % 2) == 0) && ((i % 4) != 0)
+                            && ((j % 2) == 0) && ((j % 4) != 0))
+                        consoleBoard[i][j] = '+';
+                    else
+                        consoleBoard[i][j] = '.';
+                } else if (dismension == 19) {
+                    if (((i % 3) == 0) && ((i % 6) != 0)
+                            && ((j % 3) == 0) && ((j % 6) != 0))
+                        consoleBoard[i][j] = '+';
+                    else
+                        consoleBoard[i][j] = '.';
+                } else if (dismension == 13) {
+                    if (((i % 3) == 0) && ((i % 2) != 0)
+                            && ((j % 3) == 0) && ((j % 2) != 0) || (i == 6 && j == 6))
+                        consoleBoard[i][j] = '+';
+                    else
+                        consoleBoard[i][j] = '.';
+                } else {
+                    System.out.println("Size need to be from set{19,13,9}");
+                    System.exit(1);
+                }
+            }
+
+    }
 }

@@ -13,6 +13,11 @@ public class Play implements PlayerStateBehavior{
 
     @Override
     public PlayerStateBehavior pass() {
-        return PlayerState.Pass.getStateBehavior();
+        return PlayerState.Pass.getPlayerStateBehavior();
+    }
+
+    @Override
+    public PlayerStateBehavior surrender() {
+        return PlayerState.Surrender.getPlayerStateBehavior();
     }
 }
