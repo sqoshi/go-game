@@ -39,25 +39,13 @@ public class Stone {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
 
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
 
-    public int getBreaths() {
-        return breaths;
-    }
 
-    public void setBreaths(int breaths) {
-        this.breaths = breaths;
-    }
 
     public PlayerColor getColor() {
         return color;
