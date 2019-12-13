@@ -1,4 +1,4 @@
-package go_game;
+package Strategy;
 
 public class Game {
     private int dismension;
@@ -502,6 +502,6 @@ public class Game {
             System.out.println();
         }
     }
-    char[][] getConsoleBoard(){return consoleBoard;}
+    public char[][] getConsoleBoard(){return consoleBoard;}
 
 }

@@ -1,14 +1,11 @@
-package go_game;
+package ClientServer;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
+
+import GUI.GameBoard;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 
 import java.io.ObjectInputStream;
-import java.util.Scanner;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -38,7 +35,7 @@ public class Client{
 //    private Square[] board = new Square[9];
 //    private Square currentSquare;
 
-    GameBoard gameBoard;
+    public GameBoard gameBoard;
     private Socket socket;
 //    private Scanner in;
     private ObjectInputStream in;

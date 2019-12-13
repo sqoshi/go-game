@@ -1,4 +1,4 @@
-package go_game;
+package Strategy;
 
 public enum PlayerColor {
     WHITE, BLACK;

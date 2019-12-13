@@ -1,4 +1,4 @@
-package go_game;
+package Strategy;
 
 public class Stone {
     /**

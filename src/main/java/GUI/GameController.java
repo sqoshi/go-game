@@ -1,5 +1,6 @@
-package go_game;
+package GUI;
 
+import Strategy.Game;
 import javafx.scene.paint.Color;
 
 import java.io.PrintWriter;
@@ -17,13 +18,13 @@ public class GameController {
     Game game = new Game(9);
 
 
-    void onFieldClicked(Field field, PrintWriter out) {
+    public void onFieldClicked(Field field, PrintWriter out) {
         out.println("MOVE " + field.getY() + " " +field.getX());
         System.out.println("MOVE " + field.getY() + " " +field.getX());
 //        game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
 //        refreshBoard(9);
     }
-    void onButtonClicked(){
+    public void onButtonClicked(){
 
     }
 
@@ -42,12 +43,12 @@ public class GameController {
     }
 
     //	Singleton Pattern
-    static GameController getInstance() {
+    public static GameController getInstance() {
         if (gameController == null) {
             gameController = new GameController();
         }
         return gameController;
     }
-    void setFields(Field[][] fields){this.fields=fields;}
+    public void setFields(Field[][] fields){this.fields=fields;}
 
 }

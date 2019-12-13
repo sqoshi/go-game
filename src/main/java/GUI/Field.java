@@ -1,4 +1,4 @@
-package go_game;
+package GUI;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;

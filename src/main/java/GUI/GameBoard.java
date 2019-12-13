@@ -1,20 +1,18 @@
-package go_game;
+package GUI;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
+import ClientServer.Client;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
 
 import java.io.PrintWriter;
 
 //class for Board GUI
 public class GameBoard extends GridPane {
-    Field[][] fields;
+    public Field[][] fields;
 
-    GameBoard(int dimension, PrintWriter ou,Client cl) {
+    public GameBoard(int dimension, PrintWriter ou, Client cl) {
         fields = new Field[dimension][dimension];
         PrintWriter out=ou;
         //setting board background
@@ -45,7 +43,7 @@ public class GameBoard extends GridPane {
 
     }
 
-    Field[][] getFields(){
+    public Field[][] getFields(){
         return fields;
     }
 }
