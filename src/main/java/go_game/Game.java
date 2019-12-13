@@ -503,4 +503,5 @@ public class Game {
         }
     }
     char[][] getConsoleBoard(){return consoleBoard;}
+
 }

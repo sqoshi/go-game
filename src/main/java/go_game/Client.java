@@ -2,9 +2,12 @@ package go_game;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
+import java.io.ObjectInputStream;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -37,13 +40,15 @@ public class Client{
 
     GameBoard gameBoard;
     private Socket socket;
-    private Scanner in;
+//    private Scanner in;
+    private ObjectInputStream in;
     private PrintWriter out;
 
     public Client(String serverAddress) throws Exception {
 
         socket = new Socket(serverAddress, 58901);
-        in = new Scanner(socket.getInputStream());
+//        in = new Scanner(socket.getInputStream());
+        in = new ObjectInputStream(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
 
 //        messageLabel.setBackground(Color.lightGray);
@@ -78,39 +83,57 @@ public class Client{
      */
     public void play() throws Exception{
         try {
-            var response = in.nextLine();
-            var mark = response.charAt(8);
-            System.out.println(response + "         "+mark);
-            var opponentMark = mark == 'X' ? 'O' : 'X';
+//            var response = in.nextLine();
+//            var mark = response.charAt(8);
+//            System.out.println(response + "         "+mark);
+//            var opponentMark = mark == 'X' ? 'O' : 'X';
 //            frame.setTitle("Tic Tac Toe: Player " + mark);
-            while (in.hasNextLine()) {
-                response = in.nextLine();
-                System.out.println(response);
-                if (response.startsWith("VALID_MOVE")) {
-//                    messageLabel.setText("Valid move, please wait");
-//                    currentSquare.setText(mark);
-//                    currentSquare.repaint();
-                } else if (response.startsWith("OPPONENT_MOVED")) {
-                    var loc = Integer.parseInt(response.substring(15));
-//                    board[loc].setText(opponentMark);
-//                    board[loc].repaint();
-//                    messageLabel.setText("Opponent moved, your turn");
-                } else if (response.startsWith("MESSAGE")) {
-//                    messageLabel.setText(response.substring(8));
-                } else if (response.startsWith("VICTORY")) {
-//                    JOptionPane.showMessageDialog(frame, "Winner Winner");
-                    break;
-                } else if (response.startsWith("DEFEAT")) {
-//                    JOptionPane.showMessageDialog(frame, "Sorry you lost");
-                    break;
-                } else if (response.startsWith("TIE")) {
-//                    JOptionPane.showMessageDialog(frame, "Tie");
-                    break;
-                } else if (response.startsWith("OTHER_PLAYER_LEFT")) {
-//                    JOptionPane.showMessageDialog(frame, "Other player left");
-                    break;
+                while (in.available() >= 0) {
+                    var response = (char[][])in.readObject();
+                    System.out.println("WTF "+response+" WTF");
+                        for(int i=0;i<9;i++){
+                            System.out.println();
+                            for(int k=0;k<9;k++){
+                                System.out.print(response[k][i]);
+                                if(response[i][k]=='B'){
+                                    gameBoard.fields[k][i].setFill(Color.BLACK);
+                                }
+                                else if(response[i][k]=='W'){
+                                    gameBoard.fields[k][i].setFill(Color.WHITE);
+                                }
+                                else {
+                                    gameBoard.fields[k][i].setFill(Color.TRANSPARENT);
+                                }
+                            }
+                        }
+
+//                response = in.nextLine();
+//                System.out.println(response);
+//                if (response.startsWith("VALID_MOVE")) {
+////                    messageLabel.setText("Valid move, please wait");
+////                    currentSquare.setText(mark);
+////                    currentSquare.repaint();
+//                } else if (response.startsWith("OPPONENT_MOVED")) {
+//                    var loc = Integer.parseInt(response.substring(15));
+////                    board[loc].setText(opponentMark);
+////                    board[loc].repaint();
+////                    messageLabel.setText("Opponent moved, your turn");
+//                } else if (response.startsWith("MESSAGE")) {
+////                    messageLabel.setText(response.substring(8));
+//                } else if (response.startsWith("VICTORY")) {
+////                    JOptionPane.showMessageDialog(frame, "Winner Winner");
+//                    break;
+//                } else if (response.startsWith("DEFEAT")) {
+////                    JOptionPane.showMessageDialog(frame, "Sorry you lost");
+//                    break;
+//                } else if (response.startsWith("TIE")) {
+////                    JOptionPane.showMessageDialog(frame, "Tie");
+//                    break;
+//                } else if (response.startsWith("OTHER_PLAYER_LEFT")) {
+////                    JOptionPane.showMessageDialog(frame, "Other player left");
+//                    break;
+//                }
                 }
-            }
             out.println("QUIT");
         } catch (Exception e) {
             e.printStackTrace();

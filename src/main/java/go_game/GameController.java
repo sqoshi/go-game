@@ -20,17 +20,17 @@ public class GameController {
     void onFieldClicked(Field field, PrintWriter out) {
         out.println("MOVE " + field.getY() + " " +field.getX());
         System.out.println("MOVE " + field.getY() + " " +field.getX());
-        game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
-        refreshBoard(9);
+//        game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
+//        refreshBoard(9);
     }
     void onButtonClicked(){
 
     }
 
-    void refreshBoard(int dimension){
+    void refreshBoard(char[][] consoleboard,int l){
         char[][] consoleBoard = game.getConsoleBoard();
-        for(int i=0;i<dimension;i++){
-            for(int k=0;k<dimension;k++){
+        for(int i=0;i<l;i++){
+            for(int k=0;k<l;k++){
                 if(consoleBoard[i][k]=='B'){
                     fields[k][i].setFill(Color.BLACK);
                 }

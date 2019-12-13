@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 
 //class for Board GUI
 public class GameBoard extends GridPane {
-    private Field[][] fields;
+    Field[][] fields;
 
     GameBoard(int dimension, PrintWriter ou,Client cl) {
         fields = new Field[dimension][dimension];
