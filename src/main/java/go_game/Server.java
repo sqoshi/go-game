@@ -160,6 +160,7 @@ class Gamee {
                 output.reset();
                 currentPlayer.output.writeUnshared(bor);
                 opponent.output.writeUnshared(bor);
+                currentPlayer=opponent;
                 if (hasWinner()) {
 //                    output.println("VICTORY");
 //                    opponent.output.println("DEFEAT");
