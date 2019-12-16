@@ -8,6 +8,8 @@ import go_game.PlayerColor;
 import go_game.State.PlayerState;
 import javafx.scene.paint.Color;
 
+import java.io.PrintWriter;
+
 public class GameController {
     Field[][] fields;
     //    for Singleton Pattern
@@ -27,11 +29,22 @@ public class GameController {
         refreshBoard(9);
     }
 
+    public void onFieldClicked(Field field, PrintWriter out) {
+        out.println("MOVE " + field.getY() + " " + field.getX());
+        System.out.println("MOVE " + field.getY() + " " + field.getX());
+//        game.updateBoard(PlayerColor.BLACK, field.getX(), field.getY());
+//        refreshBoard(9);
+    }
+
+    void onButtonClicked() {
+    }
+
     void onPassButtonClicked() {
         game.setPlayerState(game.getPlayerState().pass());
         System.out.println(game.getPlayerState().getState());
         game.pass();
     }
+
     void onSurrenderButtonClicked() {
         game.setPlayerState(game.getPlayerState().surrender());
         System.out.println(game.getPlayerState().getState());
