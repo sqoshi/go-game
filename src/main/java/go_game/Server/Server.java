@@ -34,7 +34,7 @@ import java.util.concurrent.Executors;
 public class Server {
     public static void main(String[] args) throws Exception {
         try (var listener = new ServerSocket(58901)) {
-            System.out.println("Tic Tac Toe Server is Running...");
+            System.out.println("serve is online");
             var pool = Executors.newFixedThreadPool(200);
             while (true) {
                 Gamee game = new Gamee();

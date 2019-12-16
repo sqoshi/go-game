@@ -8,7 +8,8 @@ import go_game.State.Surrender;
 import java.util.Arrays;
 
 public class Game {
-    private int dismension;
+    private boolean withBot;
+    public int dismension;
     private static int totalBlackStones;
     private static int totalWhiteStones;
     private int actualQuantityBlackStones;
@@ -16,6 +17,11 @@ public class Game {
     private int whitePrisonersThatBlackGot;
     private int blackPrisonersThatWhiteGot;
 
+    public Bot getBot() {
+        return bot;
+    }
+
+    Bot bot;
     public Stone[][] board;
 
     public PlayerStateBehavior getPlayerState() {
@@ -215,6 +221,19 @@ public class Game {
             killGroup(right, stone.getColor());
     }
 
+    public boolean isWithBot() {
+        return withBot;
+    }
+
+    public void setWithBot(boolean withBot) {
+        this.withBot = withBot;
+    }
+
+    public void addBot() {
+        System.out.println("Adding Bot");
+        setWithBot(true);
+        bot = new Bot(this);
+    }
 
     /**
      * pass method
@@ -261,7 +280,7 @@ public class Game {
      * @param playerColor
      * @return
      */
-    private int[] getGroups2kill(int actualGroup, PlayerColor playerColor) {
+    public int[] getGroups2kill(int actualGroup, PlayerColor playerColor) {
         int[] g2k = new int[(int) Math.pow(Math.pow(dismension, 2), 2)];
         g2k[0] = 0;
         int index = 0;
@@ -293,7 +312,7 @@ public class Game {
      * @param group
      * @return
      */
-    private int findGroupBreaths(int group) {
+    public int findGroupBreaths(int group) {
         boolean[][] breathsMatrix = new boolean[dismension][dismension];
         int counter = 0;
         for (int i = 0; i < dismension; i++)

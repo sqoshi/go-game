@@ -18,6 +18,7 @@ public class Driver {
         String[] parts;
         int i = 0;
         PlayerColor pc;
+        game1.addBot();
         while (i >= 0) {
             System.out.println("type coordinates :");
             try {
@@ -64,10 +65,8 @@ public class Driver {
                game1.updateBoard(PlayerColor.WHITE,4,3);*/
 
 
-                if (i % 2 == 0) pc = PlayerColor.BLACK;
-                else pc = PlayerColor.WHITE;
-                game1.updateBoard(pc, Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
-
+                game1.updateBoard(BLACK, Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+                game1.getBot().move(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
                 i++;
                 game1.showBoard();
             } catch (Exception ex) {

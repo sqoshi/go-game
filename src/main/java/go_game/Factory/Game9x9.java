@@ -7,6 +7,7 @@ public class Game9x9 implements GameI {
     public Game createGame() {
         return new Game(9);
     }
+
 }
 
 

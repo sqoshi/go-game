@@ -12,7 +12,7 @@ public class Field extends Circle {
     int counter = 0;
 
     //setting properties of single field  and adding listener to field
-    public Field(int y, int x) throws NullPointerException{
+    public Field(int y, int x) throws NullPointerException {
         this.y = y;
         this.x = x;
 

@@ -5,7 +5,6 @@ import go_game.Factory.GameFactory;
 import go_game.Factory.GameI;
 import go_game.Game;
 import go_game.PlayerColor;
-import go_game.State.PlayerState;
 import javafx.scene.paint.Color;
 
 import java.io.PrintWriter;
@@ -17,12 +16,10 @@ public class GameController {
 
     //    for Singleton Pattern
     private GameController() {
-
     }
 
     GameI gameI = GameFactory.getGame(9);
     Game game = gameI.createGame();
-
 
     void onFieldClicked(Field field, PlayerColor pc) throws java.lang.NullPointerException {
         game.updateBoard(pc, field.getX(), field.getY());

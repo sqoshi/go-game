@@ -15,16 +15,16 @@ public class App extends Application {
         launch(args);
     }
 
-    /*
-        @Override
-        public void start(Stage stage) throws NullPointerException {
-            GameBoard layout = new GameBoard(9);
-            GameController.getInstance().setFields(layout.getFields());
-            stage.setScene(new Scene(layout,900,900));
-            stage.setResizable(false);
-            stage.show();
-        }*/
+
     @Override
+    public void start(Stage stage) throws NullPointerException {
+        GameBoard layout = new GameBoard(9);
+        GameController.getInstance().setFields(layout.getFields());
+        stage.setScene(new Scene(layout, 900, 900));
+        stage.setResizable(false);
+        stage.show();
+    }
+   /* @Override
     public void start(Stage stage) throws Exception {
         Client client = new Client("127.0.0.1");
         Task task = new Task() {
@@ -41,5 +41,5 @@ public class App extends Application {
         stage.show();
         new Thread(task).start();
     }
-
+    */
 }
