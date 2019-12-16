@@ -409,6 +409,8 @@ public class Game {
         }
     }
 
+
+
     public boolean isPositionAvaible(int x, int y) {
         return board[x][y] == null;
     }

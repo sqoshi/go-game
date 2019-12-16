@@ -54,46 +54,60 @@ public class Bot {
                 minBreathGroupIndex = enemyGroups[i];
             }
         }
-        System.out.println("LOOKING FOR EG:" + minBreathGroupIndex + ", G:" + min);
+        System.out.println("LOOKING FOR EG:" + minBreathGroupIndex + ", B:" + min);
         for (int i = 0; i < game.getGroupsBoard().length; i++)
             for (int j = 0; j < game.getGroupsBoard().length; j++) {
-                System.out.println("minalem 2 petle");
                 if (game.getGroupsBoard()[i][j] == minBreathGroupIndex) {
+                    System.out.println("Zlapalem prawidlowa grupe");
                     //up case
-                    if (game.isLineValid(i, Direction.UP) && game.isPositionAvaible(i - 1, j) && game.isInsideBoard(i - 1, j)) {
-                        System.out.println("Wszedlem w up case ");
-                        newX = i - 1;
-                        newY = j;
-                    }
-                    //left case
-                    else if (!game.isPositionAvaible(i - 1, j) &&
-                            game.isLineValid(j, Direction.LEFT) &&
-                            game.isPositionAvaible(i, j - 1) && game.isInsideBoard(i, j - 1)) {
-                        System.out.println("Wszedlem w left case ");
-                        newX = i;
-                        newY = j - 1;
+                    System.out.println("Czy linia nad jest poprawna: " + game.isLineValid(i, Direction.UP));
+                    System.out.println("Czy linia  lewo jest poprawna: " + game.isLineValid(j, Direction.LEFT));
+                    System.out.println("Czy linia  down poprawna: " + game.isLineValid(i, Direction.DOWN));
+                    System.out.println("Czy linia  right poprawna: " + game.isLineValid(j, Direction.RIGHT));
+                    System.out.println(i - 1 + " " + j);
 
+                    if (game.isLineValid(i, Direction.UP)) {
+                        if (game.isInsideBoard(i - 1, j)) {
+                            if (game.isPositionAvaible(i - 1, j)) {
+                                System.out.println("Wszedlem w up case ");
+                                newX = i - 1;
+                                newY = j;
+                            }
+                        }
                     }
-                    // down case
-                    else if (!game.isPositionAvaible(i, j - 1) &&
-                            game.isLineValid(j, Direction.RIGHT) &&
-                            game.isPositionAvaible(i + 1, j) && game.isInsideBoard(i + 1, j)) {
-                        System.out.println("Wszedlem w down case ");
-                        newX = i + 1;
-                        newY = j;
+                    if (game.isLineValid(j, Direction.LEFT)) {
+                        if (game.isInsideBoard(i, j - 1)) {
+                            if (game.isPositionAvaible(i, j - 1)) {
+                                System.out.println("Wszedlem w left case ");
+                                newX = i;
+                                newY = j - 1;
+                            }
+                        }
                     }
-                    //right case
-                   else if (!game.isPositionAvaible(i + 1, j) &&
-                            game.isLineValid(i, Direction.DOWN) &&
-                            game.isPositionAvaible(i, j + 1) && game.isInsideBoard(i, j + 1)) {
-                        System.out.println("Wszedlem w right case ");
-                        newX = i;
-                        newY = j + 1;
-                    }else System.out.println("zaden z przypadkow nie odpowiada ");
+                    if (game.isLineValid(i, Direction.DOWN)) {
+                        if (game.isInsideBoard(i + 1, j)) {
+                            if (game.isPositionAvaible(i + 1, j)) {
+                                System.out.println("Wszedlem w down case ");
+                                newX = i + 1;
+                                newY = j;
+                            }
+                        }
+                    }
+                    if (game.isLineValid(j, Direction.RIGHT)) {
+                        if (game.isInsideBoard(i, j + 1)) {
+                            if (game.isPositionAvaible(i, j + 1)) {
+                                System.out.println("Wszedlem w right case ");
+                                newX = i;
+                                newY = j + 1;
+                            }
+                        }
+                    }
 
-                }
+                    System.out.println("NOWY X Y" + newX + " x " + newY);
+                    game.updateBoard(WHITE, newX, newY);
+                    return;
+                } else System.out.println("To po prostu nie pasuje: [" + i + "][" + j + "]");
             }
-        game.updateBoard(WHITE, newX, newY);
         System.out.println("Bot print group board = " + lastGroup);
         game.printer2D(game.getGroupsBoard());
     }
