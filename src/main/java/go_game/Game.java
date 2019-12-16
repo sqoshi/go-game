@@ -1,64 +1,35 @@
 package go_game;
 
 import go_game.State.Play;
-import go_game.State.PlayerState;
 import go_game.State.PlayerStateBehavior;
-import go_game.State.Surrender;
 
 import java.util.Arrays;
 
 public class Game {
-    private boolean withBot;
-    public int dismension;
     private static int totalBlackStones;
     private static int totalWhiteStones;
+    public int dismension;
+    public Stone[][] board;
+    Bot bot;
+    PlayerStateBehavior playerState;
+    int[][] groupsBoard; // W groups - B groups
+    boolean[][] deadStones;//states of stones
+    char[][] territoryPointsBoard;
+    private boolean withBot;
     private int actualQuantityBlackStones;
     private int actualQuantityWhiteStones;
     private int whitePrisonersThatBlackGot;
     private int blackPrisonersThatWhiteGot;
-
-    public Bot getBot() {
-        return bot;
-    }
-
-    Bot bot;
-    public Stone[][] board;
-
-    public PlayerStateBehavior getPlayerState() {
-        return playerState;
-    }
-
-    public void setPlayerState(PlayerStateBehavior playerState) {
-        this.playerState = playerState;
-    }
-
-    PlayerStateBehavior playerState;
-
-    public char[][] getConsoleBoard() {
-        return consoleBoard;
-    }
-
     private char[][] consoleBoard;
-
-    public int[][] getGroupsBoard() {
-        return groupsBoard;
-    }
-
-    int[][] groupsBoard; // W groups - B groups
     private int[][][] historyBoard;
-    boolean[][] deadStones;//states of stones
-
     private int[] moves;
-    char[][] territoryPointsBoard;
     private int lastGroup;
     private int index;
-
     private PlayerColor currentPlayer;
     private double blackScore;
     private double whiteScore;
     private int blackTerritoryPoints;
     private int whiteTerritoryPoints;
-
     public Game(int dismension) {
         this.dismension = dismension;
         totalBlackStones = (dismension ^ 2) / 2 - 1; // because 1st is current black so -1
@@ -87,6 +58,21 @@ public class Game {
         emptyConsolePrinter(dismension);
     }
 
+    public PlayerStateBehavior getPlayerState() {
+        return playerState;
+    }
+
+    public void setPlayerState(PlayerStateBehavior playerState) {
+        this.playerState = playerState;
+    }
+
+    public char[][] getConsoleBoard() {
+        return consoleBoard;
+    }
+
+    public int[][] getGroupsBoard() {
+        return groupsBoard;
+    }
 
     public Stone updateBoard(PlayerColor stoneColor, int x, int y) throws NullPointerException {
         setPlayerState(playerState.play());
@@ -410,7 +396,6 @@ public class Game {
     }
 
 
-
     public boolean isPositionAvaible(int x, int y) {
         return board[x][y] == null;
     }
@@ -583,5 +568,9 @@ public class Game {
                 }
             }
 
+    }
+
+    public Bot getBot() {
+        return bot;
     }
 }
