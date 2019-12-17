@@ -1,8 +1,7 @@
 package go_game;
 
+import go_game.Client.Game;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StoneTest {
     Game game = new Game(9);

@@ -1,9 +1,11 @@
 package go_game;
 
+import go_game.Client.Game;
+import go_game.Client.PlayerColor;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import static go_game.Direction.*;
+import static go_game.Client.Direction.*;
 
 class GameTest {
     Game game = new Game(9);
