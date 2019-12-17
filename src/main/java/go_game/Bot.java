@@ -2,9 +2,7 @@ package go_game;
 
 
 import java.util.Arrays;
-import java.util.Collections;
 
-import static go_game.PlayerColor.BLACK;
 import static go_game.PlayerColor.WHITE;
 
 public class Bot {

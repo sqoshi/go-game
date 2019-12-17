@@ -8,7 +8,7 @@ class PassTest {
 
     @Test
     void getState() {
-        Assert.assertTrue(ps instanceof Pass);
+        Assert.assertNotNull(ps);
     }
 
     @Test
