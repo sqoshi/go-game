@@ -179,7 +179,7 @@ class Gamee {
 
             }
         }
-
+//check
         private void resumeGame(String i) {
             int blackPrisoners = gam.getBlackPrisoners();
             int whitePrisoners = gam.getWhitePrisoners();
