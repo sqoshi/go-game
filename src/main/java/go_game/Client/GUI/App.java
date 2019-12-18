@@ -4,7 +4,10 @@ import go_game.Client.Client;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 
 /**
@@ -18,7 +21,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-
         Client client = new Client("127.0.0.1");
         Task task = new Task() {
             @Override
@@ -27,10 +29,10 @@ public class App extends Application {
                 return null;
             }
         };
+        Lobby lobby = client.lobby;
 
-        GameBoard layout = client.gameBoard;
-        GameController.getInstance().setFields(layout.getFields());
-        stage.setScene(new Scene(layout, 900, 900));
+//        GameController.getInstance().setFields(layout.getFields());
+        stage.setScene(new Scene(lobby, 900, 900));
         stage.setResizable(false);
         stage.show();
         new Thread(task).start();

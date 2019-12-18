@@ -29,22 +29,22 @@ class GameTest {
     void changePlayer() {
     }
 
-    @Test
-    void isPositionAvaible() {
-        Assert.assertTrue(game.isPositionAvaible(4, 4));
-        Assert.assertNotEquals(false, game.isPositionAvaible(4, 4));
-        game.updateBoard(PlayerColor.BLACK, 4, 4);
-        Assert.assertNotEquals(true, game.isPositionAvaible(4, 4));
-    }
-
-    @Test
-    void isInsideBoard() {
-        Assert.assertTrue(game.isInsideBoard(4, 4));
-        Assert.assertFalse(game.isInsideBoard(224, 412));
-        Assert.assertNotEquals(true, game.isInsideBoard(224, 412));
-        Assert.assertNotEquals(false, game.isInsideBoard(4, 4));
-
-    }
+//    @Test
+//    void isPositionAvaible() {
+//        Assert.assertTrue(game.isPositionAvaible(4, 4));
+//        Assert.assertNotEquals(false, game.isPositionAvaible(4, 4));
+//        game.updateBoard(PlayerColor.BLACK, 4, 4);
+//        Assert.assertNotEquals(true, game.isPositionAvaible(4, 4));
+//    }
+//
+//    @Test
+//    void isInsideBoard() {
+//        Assert.assertTrue(game.isInsideBoard(4, 4));
+//        Assert.assertFalse(game.isInsideBoard(224, 412));
+//        Assert.assertNotEquals(true, game.isInsideBoard(224, 412));
+//        Assert.assertNotEquals(false, game.isInsideBoard(4, 4));
+//
+//    }
 
     @Test
     void isLineValid() {

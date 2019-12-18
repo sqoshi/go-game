@@ -1,5 +1,6 @@
 package go_game.Server;
 
+import go_game.Client.Bot;
 import go_game.Client.Game;
 import go_game.Client.PlayerColor;
 
@@ -11,26 +12,6 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 
-/**
- * A server for a multi-player tic tac toe game. Loosely based on an example in
- * Deitel and Deitel’s “Java How to Program” book. For this project I created a
- * new application-level protocol called TTTP (for Tic Tac Toe Protocol), which
- * is entirely plain text. The messages of TTTP are:
- * <p>
- * Client -> Server
- * MOVE <n>
- * QUIT
- * <p>
- * Server -> Client
- * WELCOME <char>
- * VALID_MOVE
- * OTHER_PLAYER_MOVED <n>
- * OTHER_PLAYER_LEFT
- * VICTORY
- * DEFEAT
- * TIE
- * MESSAGE <text>
- */
 public class Server {
     public static void main(String[] args) throws Exception {
         try (var listener = new ServerSocket(58901)) {
@@ -48,28 +29,25 @@ public class Server {
 
 class Gamee {
 
+    Game gamee = null;
     Player currentPlayer;
     boolean pas = false;
     // Board cells numbered 0-8, top to bottom, left to right; null if empty
     private Player[] board = new Player[9];
 
-    /**
-     * A Player is identified by a character mark which is either 'X' or 'O'.
-     * For communication with the client the player has a socket and associated
-     * Scanner and PrintWriter.
-     */
     class Player implements Runnable {
         PlayerColor color;
         Player opponent;
         Socket socket;
         Scanner input;
-        Game gam;
+        Game gam = null;
         ObjectOutputStream output;
+        boolean hasBot = false;
+        Bot bot;
 
         public Player(Socket socket, PlayerColor color, Game gam) {
             this.socket = socket;
             this.color = color;
-            this.gam = gam;
         }
 
         @Override
@@ -109,8 +87,8 @@ class Gamee {
                 if (command.startsWith("QUIT")) {
                     return;
                 } else if (command.startsWith("MOVE")) {
-                    int i = Integer.parseInt(command.substring(5, 6));
-                    int j = Integer.parseInt(command.substring(7, 8));
+                    int i = Integer.parseInt(command.substring(5, 7));
+                    int j = Integer.parseInt(command.substring(8, 10));
                     if (checkIfMoveAvailable(i, j)) {
                         processMoveCommand(i, j);
                     }
@@ -119,26 +97,52 @@ class Gamee {
                 } else if (command.startsWith("RESUME")) {
                     String i = command.substring(5, 6);
                     resumeGame(i);
+                } else if (command.startsWith("GAME")) {
+                    int i = Integer.parseInt(command.substring(5, 7));
+                    String b = command.substring(8, 9);
+                    if (gamee == null) {
+                        gamee = new Game(i);
+                        gam = gamee;
+                    } else {
+                        gam = gamee;
+                    }
+                    if (b.equals("B")) {
+                        bot = new Bot(gam);
+                        hasBot = true;
+                    }
                 }
             }
         }
 
         private void processMoveCommand(int y, int x) {
             try {
-                gam.updateBoard(color, x, y);
-                char[][] bor = gam.getConsoleBoard();
-                int blackPrisoners = gam.getBlackPrisoners();
-                int whitePrisoners = gam.getWhitePrisoners();
-                output.flush();
-                output.reset();
-                Response response1 = new Response(bor, false, false, blackPrisoners, whitePrisoners);
-                currentPlayer.output.writeUnshared(response1);
-                output.flush();
-                output.reset();
-                Response response2 = new Response(bor, true, false, blackPrisoners, whitePrisoners);
-                currentPlayer.opponent.output.writeUnshared(response2);
-                currentPlayer = currentPlayer.opponent;
-                pas = false;
+                if (hasBot) {
+                    System.out.println("HEHE" + gam.dismension);
+                    gam.updateBoard(color, x, y);
+                    bot.move(y, x);
+                    char[][] bor = gam.getConsoleBoard();
+                    int blackPrisoners = gam.getBlackPrisoners();
+                    int whitePrisoners = gam.getWhitePrisoners();
+                    output.flush();
+                    output.reset();
+                    Response response1 = new Response(bor, true, false, blackPrisoners, whitePrisoners);
+                    currentPlayer.output.writeUnshared(response1);
+                } else {
+                    gam.updateBoard(color, x, y);
+                    char[][] bor = gam.getConsoleBoard();
+                    int blackPrisoners = gam.getBlackPrisoners();
+                    int whitePrisoners = gam.getWhitePrisoners();
+                    output.flush();
+                    output.reset();
+                    Response response1 = new Response(bor, false, false, blackPrisoners, whitePrisoners);
+                    currentPlayer.output.writeUnshared(response1);
+                    output.flush();
+                    output.reset();
+                    Response response2 = new Response(bor, true, false, blackPrisoners, whitePrisoners);
+                    currentPlayer.opponent.output.writeUnshared(response2);
+                    currentPlayer = currentPlayer.opponent;
+                    pas = false;
+                }
             } catch (IllegalStateException | IOException e) {
 //                output.println("MESSAGE " + e.getMessage());
             }
@@ -179,12 +183,13 @@ class Gamee {
 
             }
         }
-//check
+
+        //check
         private void resumeGame(String i) {
             int blackPrisoners = gam.getBlackPrisoners();
             int whitePrisoners = gam.getWhitePrisoners();
             try {
-                if (!((i == "B" && currentPlayer.color.equals(Color.BLACK)) || (i == "W" && currentPlayer.color.equals(Color.WHITE)))) {
+                if (!((i.equals("B") && currentPlayer.color.equals(PlayerColor.BLACK)) || (i.equals("W") && currentPlayer.color.equals(PlayerColor.WHITE)))) {
                     currentPlayer = this;
                 }
                 output.flush();
@@ -203,7 +208,10 @@ class Gamee {
         }
 
         private boolean checkIfMoveAvailable(int i, int j) {
-            return gam.isPositionAvaible(i, j);
+            if (gam.isPositionAvaible(j, i)) {
+                return true;
+            }
+            return false;
         }
     }
 }

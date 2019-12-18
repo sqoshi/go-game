@@ -2,6 +2,7 @@ package go_game.Client.GUI;
 
 
 import go_game.Client.Game;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 import java.io.PrintWriter;
@@ -29,8 +30,19 @@ public class GameController {
 
     public void onFieldClicked(Field field, PrintWriter out) {
         if (canMove && notPaused) {
-            out.println("MOVE " + field.getY() + " " + field.getX());
-            System.out.println("MOVE " + field.getY() + " " + field.getX());
+            if(field.getY()<10 && field.getX()<10) {
+                out.println("MOVE 0" + field.getY() + " 0" + field.getX());
+                System.out.println("MOVE 0" + field.getY() + " 0" + field.getX());
+            }
+            else if(field.getY()<10){
+                out.println("MOVE 0" + field.getY() + " " + field.getX());
+            }
+            else if(field.getX()<10){
+                out.println("MOVE " + field.getY() + " 0" + field.getX());
+            }
+            else {
+                out.println("MOVE " + field.getY() + " " + field.getX());
+            }
         }
     }
 
@@ -52,6 +64,11 @@ public class GameController {
 
     public void gamePaused(boolean pause) {
         notPaused = !pause;
+    }
+
+    public void updateLobby(Lobby lobby){
+        Button button = new Button("GAME");
+        lobby.vBox.getChildren().add(button);
     }
 
     void refreshBoard(char[][] consoleboard, int l) {
