@@ -4,21 +4,36 @@ package go_game.Client.GUI;
 import com.sun.media.jfxmediaimpl.platform.Platform;
 import go_game.Client.Client;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.PrintWriter;
 
 //class for Board GUI
-public class GameBoard extends GridPane {
+public class GameBoard extends GridPane implements GameBoardI {
     public Field[][] fields;
-    public Circle[] prisoners;
+    int dimension = 9;
+    Label turnlabel;
+    Label whitelabel;
+    Label blacklabel;
 
-    public GameBoard(PrintWriter ou) {
+    public Field[][] getFields() {
+        return fields;
+    }
+
+    @Override
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
+    }
+
+    @Override
+    public void createLayout(PrintWriter output) {
         fields = new Field[9][9];
-        PrintWriter out = ou;
+        PrintWriter out = output;
         Image img = new Image("https://cdn.discordapp.com/attachments/393098632213037060/651216725664071680/bitmap.png");
         this.setBackground(new Background(new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
 
@@ -59,13 +74,25 @@ public class GameBoard extends GridPane {
         this.setConstraints(surrenderbutton, 5, 9, 2, 2);
         this.getChildren().add(surrenderbutton);
         surrenderbutton.setOnMouseClicked(t -> {
-//            GameController.getInstance().onSurrenderClicked(out);
+            GameController.getInstance().onSurrenderClicked(out);
             this.getScene().getWindow().hide();
         });
 
+
+        VBox vBox = new VBox();
+        this.setConstraints(vBox,9,1,2,6);
+        this.getChildren().add(vBox);
+
+
     }
 
-    public Field[][] getFields() {
-        return fields;
+    @Override
+    public void setColor(int i, int j, Color color) {
+        fields[i][j].setFill(color);
+    }
+
+    @Override
+    public int getDimension() {
+        return dimension;
     }
 }

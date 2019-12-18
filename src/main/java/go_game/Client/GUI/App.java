@@ -29,12 +29,12 @@ public class App extends Application {
                 return null;
             }
         };
+        new Thread(task).start();
         Lobby lobby = client.lobby;
 
 //        GameController.getInstance().setFields(layout.getFields());
         stage.setScene(new Scene(lobby, 900, 900));
         stage.setResizable(false);
         stage.show();
-        new Thread(task).start();
     }
 }

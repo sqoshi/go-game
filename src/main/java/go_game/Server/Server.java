@@ -80,7 +80,7 @@ class Gamee {
             }
         }
 
-        private void processCommands() {
+        private void processCommands() throws IOException {
             while (input.hasNextLine()) {
                 var command = input.nextLine();
                 System.out.println(command);
@@ -103,6 +103,8 @@ class Gamee {
                     if (gamee == null) {
                         gamee = new Game(i);
                         gam = gamee;
+                        char[][] bor = gam.getConsoleBoard();
+                        currentPlayer.output.writeUnshared(new Response(bor,true,false,0,0));
                     } else {
                         gam = gamee;
                     }

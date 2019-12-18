@@ -11,7 +11,7 @@ public class GameController {
     //    for Singleton Pattern
     private static GameController gameController = null;
     Field[][] fields;
-    boolean canMove = true;
+    boolean canMove = false;
     boolean notPaused = true;
     Game game = new Game(9);
 
@@ -71,6 +71,9 @@ public class GameController {
         lobby.vBox.getChildren().add(button);
     }
 
+    public void onSurrenderClicked(PrintWriter out){
+        out.println("QUIT");
+    }
     void refreshBoard(char[][] consoleboard, int l) {
         char[][] consoleBoard = game.getConsoleBoard();
         for (int i = 0; i < l; i++) {
