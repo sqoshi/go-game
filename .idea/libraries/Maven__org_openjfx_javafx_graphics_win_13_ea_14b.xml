@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="Maven: org.openjfx:javafx-graphics:linux:13-ea+14b">
+  <library name="Maven: org.openjfx:javafx-graphics:win:13-ea+14b">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/13-ea+14b/javafx-graphics-13-ea+14b-linux.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/13-ea+14b/javafx-graphics-13-ea+14b-win.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/13-ea+14b/javafx-graphics-13-ea+14b-javadoc.jar!/" />
