@@ -21,5 +21,11 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-swing:linux:13-ea+14b" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:13-ea+14b" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:linux:13-ea+14b" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:15-ea+2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:linux:15-ea+2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.6.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-commons:1.6.0" level="project" />
   </component>
 </module>
